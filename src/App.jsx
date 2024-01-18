@@ -45,7 +45,7 @@ function App() {
     <div className="">
       <Toaster />
       <AuthProvider>
-        <RouterProvider router={router}></RouterProvider>
+        <RouterProvider router={router} />
       </AuthProvider>
     </div>
   );

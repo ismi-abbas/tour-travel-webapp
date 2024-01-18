@@ -1,5 +1,3 @@
-import React from "react";
-
 const Hero = () => {
   return (
     <div className="py-10">
@@ -12,8 +10,8 @@ const Hero = () => {
             Embark on an extraordinary journey with our exclusive travel tours,
             meticulously crafted to indulge your wanderlust and create
             unforgettable experiences. Our tours promise a seamless blend of
-            adventure, culture, and relaxation, curated to suit every traveler's
-            desires.
+            adventure, culture, and relaxation, curated to suit every
+            traveler&apos;s desires.
           </p>
           <div className="flex items-center">
             <input
@@ -21,7 +19,10 @@ const Hero = () => {
               type="text"
               placeholder="search place"
             />
-            <button className="px-5 py-2 bg-orange-500 font-bold rounded-r-md">
+            <button
+              type="button"
+              className="px-5 py-2 bg-orange-500 font-bold rounded-r-md"
+            >
               Search
             </button>
           </div>

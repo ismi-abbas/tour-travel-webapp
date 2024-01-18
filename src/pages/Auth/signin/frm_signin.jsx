@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
@@ -55,7 +55,10 @@ function SignInForm() {
     <div className="flex items-center justify-center h-screen w-full">
       <div className="flex w-full items-center justify-center max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg  lg:max-w-4xl">
         <div className="hidden lg:block lg:w-1/2">
-          <img src="https://images.pexels.com/photos/3931548/pexels-photo-3931548.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+          <img
+            alt=""
+            src="https://images.pexels.com/photos/3931548/pexels-photo-3931548.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          />
         </div>
 
         <div className="w-full  px-6 py-20 md:px-8 lg:w-1/2">
@@ -66,13 +69,13 @@ function SignInForm() {
           <p className="text-xl text-center text-gray-600 ">Sign In now.</p>
 
           <div className="flex items-center justify-between mt-4">
-            <span className="w-1/5 border-b  lg:w-1/4"></span>
+            <span className="w-1/5 border-b  lg:w-1/4" />
 
             <p className="text-xs text-center text-gray-500 uppercase ">
               login with email
             </p>
 
-            <span className="w-1/5 border-b  lg:w-1/4"></span>
+            <span className="w-1/5 border-b  lg:w-1/4" />
           </div>
           {error && (
             <div className="text-red-500 text-center py-2">{error}</div>
@@ -113,7 +116,7 @@ function SignInForm() {
             </div>
             <div className="mt-4 ">
               <p className="text-center">
-                Don't have an account?
+                Don&apos;t have an account?
                 <Link to="/signup" class="text-blue-700">
                   {" "}
                   Sign up Here!

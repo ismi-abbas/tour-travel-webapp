@@ -4,6 +4,7 @@ import {
   firestore as _firestore,
   app,
 } from "firebase-admin";
+
 import serviceAccount from "path/to/your/serviceAccountKey.json"; // Update with your service account key path
 
 initializeApp({
@@ -12,35 +13,22 @@ initializeApp({
 
 const firestore = _firestore();
 
-// Replace 'your_collection' with the actual collection name
-
-const states = [
-  "kelantan",
-  "pahang",
-  "terengganu",
-  "perak",
-  "melaka",
-  "johor",
-].sort();
-
 async function seedFirestore() {
   try {
-    for (const state of states) {
-      const collectionRef = firestore.collection(state);
-      // Example data to seed into the collection
-      const dataToSeed = [
-        { name: "Item 1", description: "Description 1", value: 10 },
-        { name: "Item 2", description: "Description 2", value: 20 },
-        // Add more data as needed
-      ];
+    const collectionRef = firestore.collection("pahang");
+    // Example data to seed into the collection
+    const dataToSeed = [
+      { name: "image", description: "Description 1", value: 10 },
+      { name: "image", description: "Description 2", value: 20 },
+      // Add more data as needed
+    ];
 
-      for (const data of dataToSeed) {
-        // Use add() to automatically generate document IDs
-        await collectionRef.add(data);
-      }
-
-      console.log(`Data seeded successfully for state: ${state}`);
+    for (const data of dataToSeed) {
+      // Use add() to automatically generate document IDs
+      await collectionRef.add(data);
     }
+
+    console.log("Data seeded successfully for state: pahang");
   } catch (error) {
     console.error("Error seeding data:", error);
   } finally {

@@ -7,9 +7,11 @@ export default function Protected({ children }) {
 
   if (location.pathname === "/" && currentUser) {
     return <Navigate to="/home" replace />;
-  } else if (!currentUser) {
-    return <Navigate to="/" replace />;
-  } else {
-    return children;
   }
+
+  if (!currentUser) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
 }

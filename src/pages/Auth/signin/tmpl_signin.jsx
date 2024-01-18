@@ -1,4 +1,3 @@
-import React from "react";
 import SignInForm from "./frm_signin";
 
 function SignIn() {

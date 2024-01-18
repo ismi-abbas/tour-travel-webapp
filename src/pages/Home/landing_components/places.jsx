@@ -15,9 +15,9 @@ const Places = () => {
       "perak",
       "melaka",
       "johor",
-    ].sort(); // Add more states if necessary
+    ].sort();
 
-    let allPlaces = {};
+    const allPlaces = {};
 
     for (const state of states) {
       const stateCollection = collection(db, state);
@@ -43,7 +43,10 @@ const Places = () => {
     <div className="py-10">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Popular Places</h1>
-        <button className="px-5 py-2 rounded border border-orange-500 text-orange-600">
+        <button
+          type="button"
+          className="px-5 py-2 rounded border border-orange-500 text-orange-600"
+        >
           View All
         </button>
       </div>

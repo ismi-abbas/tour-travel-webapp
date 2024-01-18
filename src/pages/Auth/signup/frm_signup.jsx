@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { auth, db } from "../../../services/firebase";
 import { setDoc, doc } from "firebase/firestore";
 import toast from "react-hot-toast";
+
 function SignUpForm() {
   //--//
   const [email, setEmail] = useState("");

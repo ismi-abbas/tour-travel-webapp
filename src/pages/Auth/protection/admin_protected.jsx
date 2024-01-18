@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { Navigate, useLocation } from "react-router-dom";
 import { getUserData } from "../../../hooks/get_user_data";
@@ -32,7 +32,9 @@ export default function AdminProtected({ children }) {
 
   if (location.pathname === "/admin" && currentUser && isAdmin) {
     return <Navigate to="/admin/home/" replace />;
-  } else if (!currentUser || !isAdmin) {
+  }
+
+  if (!currentUser || !isAdmin) {
     return <Navigate to="/signin" replace />;
   }
 
