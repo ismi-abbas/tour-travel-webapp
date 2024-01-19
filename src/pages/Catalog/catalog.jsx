@@ -1,7 +1,9 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import AuthenticatedLayout from "../AuthenticatedLayout";
 import { Link, useLocation } from "react-router-dom";
 import LocationDropdown from "./locationDropdown";
+import hotelData from "../../../Tripadvisor_dataset.json";
+import restaurantData from "../../../restauran_datasets.json";
 
 function useQuery() {
   const { search } = useLocation();
@@ -51,83 +53,77 @@ const CatalogPage = () => {
 };
 
 function CatalogList({ category }) {
-  const catalogData = [
-    {
-      name: "Tour 1",
-      description: "Explore the beautiful beaches of Bali",
-      rating: 4.5,
-      imgSrc:
-        "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/84/49/db/photo1jpg.jpg?w=1200&h=-1&s=1",
-      category: "hotel",
-    },
-    {
-      name: "Tour 2",
-      description: "Discover the cultural heritage of Kyoto",
-      rating: 4.2,
-      imgSrc:
-        "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/84/49/db/photo1jpg.jpg?w=1200&h=-1&s=1",
-      category: "historical",
-    },
-    {
-      name: "Tour 3",
-      description: "Shop till you drop in Paris",
-      rating: 4.8,
-      imgSrc:
-        "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/84/49/db/photo1jpg.jpg?w=1200&h=-1&s=1",
-      category: "cafe",
-    },
-    {
-      name: "Tour 4",
-      description: "Visit historical landmarks in Rome",
-      rating: 4.7,
-      imgSrc:
-        "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/84/49/db/photo1jpg.jpg?w=1200&h=-1&s=1",
-      category: "restaurant",
-    },
-    {
-      name: "Tour 5",
-      description: "Relax in luxury at Maldives resorts",
-      rating: 4.9,
-      imgSrc:
-        "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/84/49/db/photo1jpg.jpg?w=1200&h=-1&s=1",
-      category: "shopping",
-    },
-    {
-      name: "Tour 6",
-      description: "Explore the beautiful beaches of Bali",
-      rating: 4.5,
-      imgSrc:
-        "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/84/49/db/photo1jpg.jpg?w=1200&h=-1&s=1",
-      category: "hotel",
-    },
-  ];
+  const dataSets = useMemo(() => hotelData);
+  const resturantDataSets = useMemo(() => restaurantData);
 
+  const concat = dataSets.concat(resturantDataSets);
   const filteredCatalog = category
-    ? catalogData.filter((i) => i.category === category)
-    : catalogData;
+    ? concat.filter((i) => i.category === category)
+    : concat;
+
+  const itemsPerPage = 10;
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredCatalog.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   return (
-    <div className="mt-10 flex justify-center">
+    <div className="mt-10 flex justify-center flex-col items-center">
       <div className="grid grid-cols-1 gap-4">
-        {filteredCatalog.map(({ name, description, imgSrc, rating }) => (
+        {currentItems.map(({ name, address, description, image, rating }) => (
           <div
             key={name}
-            className="flex border w-[700px] h-48 hover:shadow-md hover:cursor-pointer rounded-lg"
+            className="flex border w-[700px] h-52 hover:shadow-md hover:cursor-pointer rounded-lg"
           >
-            <div className="w-1/2 flex items-center">
+            <div className="min-w-[250px] flex items-center w-1/5">
               <img
-                src={imgSrc}
+                src={image}
                 alt=""
                 className="object-cover w-full h-full rounded-l-lg"
               />
             </div>
-            <div className="w-2/3 p-4 flex flex-col items-start">
-              <h1 className="text-lg font-semibold">{name}</h1>
-              <p>{description}</p>
-              <p>{rating}</p>
+            <div className="p-4 mt-2 gap-2 flex flex-col">
+              <h1 className="text-lg font-semibold text-start">{name}</h1>
+              <div className="w-full">
+                <p className="overflow-clip truncate text-start max-w-[400px]">
+                  {description}
+                </p>
+                <p className="text-ellipsis overflow-hidden inline-flex justify-start w-full max-w-[400px] text-justify">
+                  {address}
+                </p>
+              </div>
+              <p className="inline-flex justify-start w-full">{rating}</p>
             </div>
           </div>
         ))}
+      </div>
+      <div className="mt-4 flex justify-center">
+        <button
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+          className="mr-2 px-4 py-2 bg-indigo-500 text-white rounded-md"
+        >
+          Previous Page
+        </button>
+        <button
+          onClick={handleNextPage}
+          disabled={indexOfLastItem >= filteredCatalog.length}
+          className="px-4 py-2 bg-indigo-500 text-white rounded-md"
+        >
+          Next Page
+        </button>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, createContext } from "react";
+import { useContext, useState, useEffect, createContext } from "react";
 import { auth } from "../services/firebase";
 
 import {
@@ -18,15 +18,14 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let unsubscribe;
-    unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setLoading(false);
       if (user) {
         setCurrentUser(user);
-        console.log(`user is logged in`);
+        console.log("user is logged in");
       } else {
         setCurrentUser(null);
-        console.log(`User is signed out`);
+        console.log("User is signed out");
       }
     });
     return () => {
