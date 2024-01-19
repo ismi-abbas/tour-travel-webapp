@@ -4,6 +4,8 @@ import { Link, useLocation } from "react-router-dom";
 import LocationDropdown from "./locationDropdown";
 import hotelData from "../../../Tripadvisor_dataset.json";
 import restaurantData from "../../../restauran_datasets.json";
+import attactionsData from "../../../attractions.json";
+import { data } from "autoprefixer";
 
 function useQuery() {
   const { search } = useLocation();
@@ -15,7 +17,28 @@ const CatalogPage = () => {
 
   const currentCat = query.get("category");
 
-  const categories = ["restaurant", "cafe", "shopping", "historical", "hotel"];
+  const categories = [
+    {
+      name: "restaurant",
+      value: "restaurant",
+    },
+    {
+      name: "cafe",
+      value: "cafe",
+    },
+    {
+      name: "things to do",
+      value: "attraction",
+    },
+    {
+      name: "historical",
+      value: "historical",
+    },
+    {
+      name: "hotel",
+      value: "hotel",
+    },
+  ];
 
   return (
     <AuthenticatedLayout>
@@ -25,22 +48,22 @@ const CatalogPage = () => {
         </div>
         <div className="flex justify-center">
           <ul className="flex justify-between w-full lg:mx-32 mx-48">
-            {categories.map((cat) => (
+            {categories.map((item) => (
               <Link
                 className={`
                 border p-2 rounded-lg capitalize w-32 hover:shadow-sm hover:cursor-pointer hover:ring-2 hover:ring-indigo-500
                 ${
-                  currentCat === cat
+                  currentCat === item.value
                     ? "text-indigo-700 ring-2 ring-indigo-500"
                     : "text-black"
                 }`}
-                key={cat}
+                key={item.name}
                 to={{
                   pathname: "/tour-catalog",
-                  search: `?category=${cat}`,
+                  search: `?category=${item.value}`,
                 }}
               >
-                <div className={""}>{cat}</div>
+                <div className={""}>{item.name}</div>
               </Link>
             ))}
           </ul>
@@ -55,8 +78,9 @@ const CatalogPage = () => {
 function CatalogList({ category }) {
   const dataSets = useMemo(() => hotelData);
   const resturantDataSets = useMemo(() => restaurantData);
+  const attractionDataSets = useMemo(() => attactionsData);
 
-  const concat = dataSets.concat(resturantDataSets);
+  const concat = [...dataSets, ...resturantDataSets, ...attractionDataSets];
   const filteredCatalog = category
     ? concat.filter((i) => i.category === category)
     : concat;
