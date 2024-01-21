@@ -3,13 +3,23 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCt79IMWaBfOWwBHNVxf2oVHKcI3RdSnHw",
-  authDomain: "travel-tour-webapp.firebaseapp.com",
-  projectId: "travel-tour-webapp",
-  storageBucket: "travel-tour-webapp.appspot.com",
-  messagingSenderId: "843238771243",
-  appId: "1:843238771243:web:47574c006b64734b4df86e",
+// const firebaseConfig = {
+//   apiKey: "AIzaSyCt79IMWaBfOWwBHNVxf2oVHKcI3RdSnHw",
+//   authDomain: "travel-tour-webapp.firebaseapp.com",
+//   projectId: "travel-tour-webapp",
+//   storageBucket: "travel-tour-webapp.appspot.com",
+//   messagingSenderId: "843238771243",
+//   appId: "1:843238771243:web:47574c006b64734b4df86e",
+// };
+
+const altFirebaseConfig = {
+  apiKey: "AIzaSyCQLbRFsTFMJgnr2jX4EjeOAVrTXc9R2SI",
+  authDomain: "student-app-f2682.firebaseapp.com",
+  projectId: "student-app-f2682",
+  storageBucket: "student-app-f2682.appspot.com",
+  messagingSenderId: "705990561387",
+  appId: "1:705990561387:web:5c8ee1e5642a8e5c0bab2e",
+  measurementId: "G-E85DMS3SJE",
 };
 
 function createFirebaseApp(config) {
@@ -20,7 +30,7 @@ function createFirebaseApp(config) {
   }
 }
 
-const firebaseApp = createFirebaseApp(firebaseConfig);
+const firebaseApp = createFirebaseApp(altFirebaseConfig);
 
 //Auth Exports
 export const auth = getAuth(firebaseApp);

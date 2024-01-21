@@ -8,12 +8,15 @@ import { AuthProvider } from "./contexts/AuthContext";
 import Protected from "./pages/Auth/protection/protected";
 import { Toaster } from "react-hot-toast";
 import CatalogPage from "./pages/Catalog/catalog";
+import DetailPage from "./pages/Details/detail_page";
+import Error404 from "./pages/404";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
       element: <LandingPage />,
+      errorElement: <Error404 />,
     },
     {
       path: "/home",
@@ -28,6 +31,14 @@ function App() {
       element: (
         <Protected>
           <CatalogPage />
+        </Protected>
+      ),
+    },
+    {
+      path: "/tour-catalog/details/:type/:placeId",
+      element: (
+        <Protected>
+          <DetailPage />
         </Protected>
       ),
     },

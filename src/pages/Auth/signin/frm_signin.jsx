@@ -52,7 +52,7 @@ function SignInForm() {
   }
 
   return (
-    <div className="flex items-center justify-center h-screen w-full">
+    <div className="flex items-center justify-center w-full">
       <div className="flex w-full items-center justify-center max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg  lg:max-w-4xl">
         <div className="hidden lg:block lg:w-1/2">
           <img

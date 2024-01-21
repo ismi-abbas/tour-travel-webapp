@@ -3,17 +3,39 @@ import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
 const location = [
-  { id: 1, name: "Kuala Lumpur", value: "kl" },
-  { id: 2, name: "Kelantan", value: "kelantan" },
-  { id: 3, name: "Pahang", value: "pahang" },
-  { id: 4, name: "Perak", value: "perak" },
-  { id: 5, name: "Johor", value: "johor" },
-  { id: 6, name: "Melaka", value: "melaka" },
-  { id: 7, name: "Kedah", value: "kedah" },
-  { id: 8, name: "Negeri Sembilan", value: "negeri" },
-  { id: 9, name: "P. Pinang", value: "penang" },
-  { id: 10, name: "Perlis", value: "perlis" },
-  { id: 11, name: "Selangor", value: "selangor" },
+  {
+    id: 1,
+    name: "Kelantan",
+    value: "kelantan",
+    districts: [
+      {
+        name: "Rompin",
+        value: "rompin",
+      },
+    ],
+  },
+  {
+    id: 2,
+    name: "Pahang",
+    value: "pahang",
+    districts: [
+      {
+        name: "Rompin",
+        value: "rompin",
+      },
+    ],
+  },
+  {
+    id: 2,
+    name: "Terengganu",
+    value: "terengganu",
+    districts: [
+      {
+        name: "Rompin",
+        value: "rompin",
+      },
+    ],
+  },
 ];
 
 export default function LocationDropdown() {

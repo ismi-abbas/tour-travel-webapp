@@ -2,10 +2,12 @@ import { useMemo, useState } from "react";
 import AuthenticatedLayout from "../AuthenticatedLayout";
 import { Link, useLocation } from "react-router-dom";
 import LocationDropdown from "./locationDropdown";
-import hotelData from "../../../Tripadvisor_dataset.json";
+import hotelData from "../../../hotel_datasets.json";
 import restaurantData from "../../../restauran_datasets.json";
 import attactionsData from "../../../attractions.json";
-import { data } from "autoprefixer";
+// import { db } from "../../services/firebase";
+// import { collection, getDocs } from "firebase/firestore";
+// import { useEffect } from "react";
 
 function useQuery() {
   const { search } = useLocation();
@@ -14,29 +16,33 @@ function useQuery() {
 
 const CatalogPage = () => {
   const query = useQuery();
-
-  const currentCat = query.get("category");
+  const [currentSelectedCategory, setSelectedCategory] = useState();
 
   const categories = [
     {
       name: "restaurant",
       value: "restaurant",
+      type: "restaurant",
     },
     {
       name: "cafe",
-      value: "cafe",
+      value: "restaurant",
+      type: "restaurant",
     },
     {
       name: "things to do",
       value: "attraction",
+      type: "attraction",
     },
     {
       name: "historical",
       value: "historical",
+      type: "attraction",
     },
     {
       name: "hotel",
       value: "hotel",
+      type: "hotel",
     },
   ];
 
@@ -53,7 +59,7 @@ const CatalogPage = () => {
                 className={`
                 border p-2 rounded-lg capitalize w-32 hover:shadow-sm hover:cursor-pointer hover:ring-2 hover:ring-indigo-500
                 ${
-                  currentCat === item.value
+                  currentSelectedCategory === item.name
                     ? "text-indigo-700 ring-2 ring-indigo-500"
                     : "text-black"
                 }`}
@@ -62,6 +68,7 @@ const CatalogPage = () => {
                   pathname: "/tour-catalog",
                   search: `?category=${item.value}`,
                 }}
+                onClick={() => setSelectedCategory(item.name)}
               >
                 <div className={""}>{item.name}</div>
               </Link>
@@ -79,6 +86,32 @@ function CatalogList({ category }) {
   const dataSets = useMemo(() => hotelData);
   const resturantDataSets = useMemo(() => restaurantData);
   const attractionDataSets = useMemo(() => attactionsData);
+  // const [cloudData, setCloudData] = useState();
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const pahangRef = await collection(db, "pahang");
+  //     const snapshot = await getDocs(pahangRef);
+
+  //     if (snapshot.empty) {
+  //       console.log("No matching documents.");
+  //       return;
+  //     }
+
+  //     const newData = snapshot.docs.map((doc) => ({
+  //       id: doc.data().id,
+  //       name: doc.data().name,
+  //       address: doc.data().address,
+  //       description: doc.data().description,
+  //       image: doc.data().image,
+  //       rating: doc.data().rating,
+  //     }));
+
+  //     setCloudData(newData);
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   const concat = [...dataSets, ...resturantDataSets, ...attractionDataSets];
   const filteredCatalog = category
@@ -106,35 +139,47 @@ function CatalogList({ category }) {
   return (
     <div className="mt-10 flex justify-center flex-col items-center">
       <div className="grid grid-cols-1 gap-4">
-        {currentItems.map(({ name, address, description, image, rating }) => (
-          <div
-            key={name}
-            className="flex border w-[700px] h-52 hover:shadow-md hover:cursor-pointer rounded-lg"
-          >
-            <div className="min-w-[250px] flex items-center w-1/5">
-              <img
-                src={image}
-                alt=""
-                className="object-cover w-full h-full rounded-l-lg"
-              />
-            </div>
-            <div className="p-4 mt-2 gap-2 flex flex-col">
-              <h1 className="text-lg font-semibold text-start">{name}</h1>
-              <div className="w-full">
-                <p className="overflow-clip truncate text-start max-w-[400px]">
-                  {description}
-                </p>
-                <p className="text-ellipsis overflow-hidden inline-flex justify-start w-full max-w-[400px] text-justify">
-                  {address}
-                </p>
+        {currentItems.map(
+          ({
+            id,
+            name,
+            category: itemCategory,
+            address,
+            description,
+            image,
+            rating,
+          }) => (
+            <Link
+              to={`/tour-catalog/details/${itemCategory}s/${id}`}
+              key={id}
+              className="flex border w-[700px] h-52 hover:shadow-md hover:cursor-pointer rounded-lg"
+            >
+              <div className="min-w-[250px] flex items-center w-1/5">
+                <img
+                  src={image}
+                  alt=""
+                  className="object-cover w-full h-full rounded-l-lg"
+                />
               </div>
-              <p className="inline-flex justify-start w-full">{rating}</p>
-            </div>
-          </div>
-        ))}
+              <div className="p-4 mt-2 gap-2 flex flex-col">
+                <h1 className="text-lg font-semibold text-start">{name}</h1>
+                <div className="w-full">
+                  <p className="overflow-clip truncate text-start max-w-[400px]">
+                    {description}
+                  </p>
+                  <p className="text-ellipsis overflow-hidden inline-flex justify-start w-full max-w-[400px] text-justify">
+                    {address}
+                  </p>
+                </div>
+                <p className="inline-flex justify-start w-full">{rating}</p>
+              </div>
+            </Link>
+          )
+        )}
       </div>
       <div className="mt-4 flex justify-center">
         <button
+          type="button"
           onClick={handlePrevPage}
           disabled={currentPage === 1}
           className="mr-2 px-4 py-2 bg-indigo-500 text-white rounded-md"
@@ -142,6 +187,7 @@ function CatalogList({ category }) {
           Previous Page
         </button>
         <button
+          type="button"
           onClick={handleNextPage}
           disabled={indexOfLastItem >= filteredCatalog.length}
           className="px-4 py-2 bg-indigo-500 text-white rounded-md"

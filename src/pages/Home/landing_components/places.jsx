@@ -1,38 +1,22 @@
 import { useState, useEffect } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../../services/firebase"; // Adjust the import path as necessary
 import { AiFillStar } from "react-icons/ai";
 import { IoLocationOutline } from "react-icons/io5";
+import { getAttractions } from "../../../services/query";
 
 const Places = () => {
   const [places, setPlaces] = useState({});
 
   async function fetchPlaces() {
-    const states = [
-      "kelantan",
-      "pahang",
-      "terengganu",
-      "perak",
-      "melaka",
-      "johor",
-    ].sort();
-
     const allPlaces = {};
+    const pahangList = await getAttractions("Pahang");
+    const kelantanList = await getAttractions("Kelantan");
+    const terengganuList = await getAttractions("Terengganu");
 
-    for (const state of states) {
-      const stateCollection = collection(db, state);
-      const querySnapshot = await getDocs(stateCollection);
-      allPlaces[state] = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        img: doc.data().places_img,
-        name: doc.data().places_name,
-        rating: doc.data().places_rating,
-        location: doc.data().places_location,
-      }));
-    }
+    allPlaces["pahang"] = pahangList;
+    allPlaces["terengganu"] = kelantanList;
+    allPlaces["kelantan"] = terengganuList;
 
     setPlaces(allPlaces);
-    console.log(allPlaces);
   }
 
   useEffect(() => {
@@ -54,18 +38,18 @@ const Places = () => {
       {Object.keys(places).map((state) => (
         <div key={state}>
           <h1 className="text-2xl font-bold capitalize">{state}</h1>
-          <div className="places py-10 grid grid-cols-2 xl:grid-cols-3 space-x-8 justify-items-center">
+          <div className="my-8 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 justify-items-center">
             {places[state].length > 0 ? (
               places[state].map((place) => (
                 <div
                   key={place.id}
-                  className="place w-[250px] md:w-[330px] h-auto bg-white border rounded-lg p-4 shadow-md hover:shadow-sm hover:cursor-pointer"
+                  className="place w-[250px] md:w-[330px] h-auto bg-white border rounded-lg p-4 hover:cursor-pointer hover:ring-1 hover:ring-indigo-600"
                 >
                   <div className="w-full h-[150px] md:h-[230px]">
                     <img
                       src={
-                        place.img !== "test"
-                          ? place.img
+                        place.image !== ""
+                          ? place.image
                           : "https://plus.unsplash.com/premium_photo-1682091978604-6d163f63d9ef?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                       }
                       alt={place.name}

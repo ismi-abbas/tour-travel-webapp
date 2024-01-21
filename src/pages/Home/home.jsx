@@ -6,7 +6,7 @@ const HomePage = () => {
   return (
     <div>
       <LoggedNavbar />
-      <div className="w-11/12 2xl:w-4/5 m-auto">
+      <div>
         <Hero />
         <Places />
       </div>
