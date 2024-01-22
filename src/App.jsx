@@ -10,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 import CatalogPage from "./pages/Catalog/catalog";
 import DetailPage from "./pages/Details/detail_page";
 import Error404 from "./pages/404";
+import DetailPageLogout from "./pages/Details/detail_page_logout";
 
 function App() {
   const router = createBrowserRouter([
@@ -41,6 +42,10 @@ function App() {
           <DetailPage />
         </Protected>
       ),
+    },
+    {
+      path: "/details/:type/:placeId",
+      element: <DetailPageLogout />,
     },
     {
       path: "/signin",

@@ -3,6 +3,9 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
+// this is your key, can use back after the limit reset next day
+// still require for login
+
 // const firebaseConfig = {
 //   apiKey: "AIzaSyCt79IMWaBfOWwBHNVxf2oVHKcI3RdSnHw",
 //   authDomain: "travel-tour-webapp.firebaseapp.com",
