@@ -4,6 +4,7 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 // this is your key, can use back after the limit reset next day
+// just uncomment the config, and comment my config
 // still require for login
 
 // const firebaseConfig = {
@@ -15,7 +16,7 @@ import { getStorage } from "firebase/storage";
 //   appId: "1:843238771243:web:47574c006b64734b4df86e",
 // };
 
-const altFirebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyCQLbRFsTFMJgnr2jX4EjeOAVrTXc9R2SI",
   authDomain: "student-app-f2682.firebaseapp.com",
   projectId: "student-app-f2682",
@@ -33,7 +34,7 @@ function createFirebaseApp(config) {
   }
 }
 
-const firebaseApp = createFirebaseApp(altFirebaseConfig);
+const firebaseApp = createFirebaseApp(firebaseConfig);
 
 //Auth Exports
 export const auth = getAuth(firebaseApp);

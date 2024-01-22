@@ -11,6 +11,9 @@ import CatalogPage from "./pages/Catalog/catalog";
 import DetailPage from "./pages/Details/detail_page";
 import Error404 from "./pages/404";
 import DetailPageLogout from "./pages/Details/detail_page_logout";
+import SearchResult from "./pages/Home/search_result";
+import ContactPage from "./pages/contact";
+import AboutPage from "./pages/about";
 
 function App() {
   const router = createBrowserRouter([
@@ -26,6 +29,14 @@ function App() {
           <HomePage />
         </Protected>
       ),
+    },
+    {
+      path: "/contact",
+      element: <ContactPage />,
+    },
+    {
+      path: "/about",
+      element: <AboutPage />,
     },
     {
       path: "/tour-catalog",
@@ -46,6 +57,10 @@ function App() {
     {
       path: "/details/:type/:placeId",
       element: <DetailPageLogout />,
+    },
+    {
+      path: "/search",
+      element: <SearchResult />,
     },
     {
       path: "/signin",

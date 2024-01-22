@@ -14,8 +14,8 @@ const Places = () => {
     const terengganuList = await getAttractions("Terengganu");
 
     allPlaces["pahang"] = pahangList;
-    allPlaces["terengganu"] = kelantanList;
-    allPlaces["kelantan"] = terengganuList;
+    allPlaces["terengganu"] = terengganuList;
+    allPlaces["kelantan"] = kelantanList;
 
     setPlaces(allPlaces);
   }

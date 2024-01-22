@@ -76,13 +76,16 @@ const CatalogPage = () => {
           </ul>
         </div>
 
-        <CatalogList category={query.get("category")} />
+        <CatalogList
+          category={query.get("category")}
+          districtFilter={query.get("filter")}
+        />
       </div>
     </AuthenticatedLayout>
   );
 };
 
-function CatalogList({ category }) {
+function CatalogList({ category, districtFilter }) {
   const dataSets = useMemo(() => hotelData);
   const resturantDataSets = useMemo(() => restaurantData);
   const attractionDataSets = useMemo(() => attactionsData);
@@ -113,9 +116,29 @@ function CatalogList({ category }) {
   //   fetchData();
   // }, []);
 
+  let filteredCatalog;
   const concat = [...dataSets, ...resturantDataSets, ...attractionDataSets];
-  const filteredCatalog = category
-    ? concat.filter((i) => i.category === category)
+  if (category === "historical") {
+    filteredCatalog = category
+      ? concat.filter((i) => i.subcategories.includes("Museums"))
+      : concat;
+  } else {
+    filteredCatalog = category
+      ? concat.filter((i) => i.category === category)
+      : concat;
+  }
+
+  filteredCatalog = districtFilter
+    ? concat.filter((i) => {
+        const ancestorLocations = i.ancestorLocations || [];
+        console.log(ancestorLocations);
+
+        return ancestorLocations.some(
+          (location) =>
+            location.name.replace(/\sDistrict$/, "")?.toLowerCase() ===
+            decodeURIComponent(districtFilter.toLowerCase())
+        );
+      })
     : concat;
 
   const itemsPerPage = 10;
