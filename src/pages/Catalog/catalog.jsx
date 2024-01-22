@@ -92,39 +92,51 @@ function CatalogList({ category, districtFilter }) {
     ...attractionDataSets,
   ];
 
-  let filteredCatalog = useMemo(() => {
+  const filteredCatalog = useMemo(() => {
     let result = concat;
 
-    if (category === "historical" && districtFilter) {
+    const isHistoricalCategory = category === "historical";
+    const hasDistrictFilter = Boolean(districtFilter);
+
+    if (isHistoricalCategory && hasDistrictFilter) {
       result = result.filter((item) => {
-        const ancestorLocations = item.ancestorLocations || [];
-        const isMuseum = item.subcategories.includes("Museums");
+        const { ancestorLocations = [], subcategories = [] } = item;
+        const isMuseum = subcategories.includes("Museums");
         const isMatchingDistrict = ancestorLocations.some(
           (location) =>
             location.name.replace(/\sDistrict$/, "")?.toLowerCase() ===
-            decodeURIComponent(districtFilter?.toLowerCase())
+            decodeURIComponent(districtFilter.toLowerCase()),
         );
 
         return isMuseum && isMatchingDistrict;
       });
-    } else if (category === "historical") {
-      return result.filter((i) => i.subcategories.includes("Museums"));
-    } else {
-      result = result.filter((i) => i.category === category);
-    }
-
-    if (districtFilter && category !== "historical") {
-      result = result.filter((i) => {
-        const ancestorLocations = i.ancestorLocations || [];
+    } else if (hasDistrictFilter && !category) {
+      result = result.filter((item) => {
+        const ancestorLocations = item.ancestorLocations || [];
         return ancestorLocations.some(
           (location) =>
             location.name.replace(/\sDistrict$/, "")?.toLowerCase() ===
-            decodeURIComponent(districtFilter.toLowerCase())
+            decodeURIComponent(districtFilter.toLowerCase()),
+        );
+      });
+    } else if (isHistoricalCategory) {
+      result = result.filter((item) => item.subcategories.includes("Museums"));
+    } else if (category) {
+      result = result.filter((item) => item.category === category);
+    }
+
+    if (hasDistrictFilter && category !== "historical") {
+      result = result.filter((item) => {
+        const ancestorLocations = item.ancestorLocations || [];
+        return ancestorLocations.some(
+          (location) =>
+            location.name.replace(/\sDistrict$/, "")?.toLowerCase() ===
+            decodeURIComponent(districtFilter.toLowerCase()),
         );
       });
     }
 
-    if (!districtFilter && !category) {
+    if (!hasDistrictFilter && !category) {
       result = concat;
     }
 
@@ -187,7 +199,7 @@ function CatalogList({ category, districtFilter }) {
                 <p className="inline-flex justify-start w-full">{rating}</p>
               </div>
             </Link>
-          )
+          ),
         )}
       </div>
       <div className="mt-4 flex justify-center">

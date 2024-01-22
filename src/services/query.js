@@ -12,7 +12,7 @@ import { db } from "./firebase";
 export async function getAttractions(place) {
   const attractionsRef = collection(db, "attractions");
   const snapshot = await getDocs(
-    query(attractionsRef, where("addressObj.state", "==", place), limit(8))
+    query(attractionsRef, where("addressObj.state", "==", place), limit(8)),
   );
 
   if (snapshot.empty) {
@@ -39,7 +39,7 @@ export async function getAttractions(place) {
 export async function getHotelsList(place) {
   const attractionsRef = collection(db, "hotels");
   const snapshot = await getDocs(
-    query(attractionsRef, where("addressObj.state", "==", place), limit(8))
+    query(attractionsRef, where("addressObj.state", "==", place), limit(8)),
   );
 
   if (snapshot.empty) {
@@ -66,7 +66,7 @@ export async function getHotelsList(place) {
 export async function getRestaurantList(place) {
   const attractionsRef = collection(db, "restaurants");
   const snapshot = await getDocs(
-    query(attractionsRef, where("addressObj.state", "==", place), limit(8))
+    query(attractionsRef, where("addressObj.state", "==", place), limit(8)),
   );
 
   if (snapshot.empty) {

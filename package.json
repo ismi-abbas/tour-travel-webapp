@@ -16,8 +16,6 @@
     "firebase": "^10.7.1",
     "firebase-admin": "^12.0.0",
     "firestore-seed": "^0.0.11",
-    "flowbite": "^2.2.1",
-    "flowbite-react": "^0.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",

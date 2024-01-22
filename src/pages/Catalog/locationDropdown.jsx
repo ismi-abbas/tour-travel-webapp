@@ -1,18 +1,11 @@
-import { useState } from "react";
 import Dropdown from "react-multilevel-dropdown";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const LocationDropdown = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-
-  const [_searchQuery, setSearchQuery] = useState(
-    searchParams.get("filter") || ""
-  );
 
   const searchPlace = (place, isDistrict) => {
     if (!isDistrict) return;
-    setSearchQuery(encodeURIComponent(place));
 
     const params = new URLSearchParams(window.location.search);
     params.set("filter", place.toLowerCase());
@@ -71,7 +64,7 @@ const LocationDropdown = () => {
   ];
 
   return (
-    <Dropdown title="Location">
+    <Dropdown title="Location" buttonClassName="bg-white">
       {location.map((state, index) => (
         <Dropdown.Item
           key={index}

@@ -38,7 +38,7 @@ function SignUpForm() {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
-        password
+        password,
       );
       const users = userCredential.user;
 

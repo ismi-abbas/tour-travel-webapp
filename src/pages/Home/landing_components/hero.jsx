@@ -5,7 +5,7 @@ const Hero = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState(
-    searchParams.get("place") || ""
+    searchParams.get("place") || "",
   );
 
   const handleSubmit = (event) => {

@@ -97,7 +97,7 @@ const DetailPage = () => {
                         <a
                           href={generateGoogleMapsLink(
                             placeData?.latitude,
-                            placeData?.longitude
+                            placeData?.longitude,
                           )}
                           target="_blank"
                           rel="noreferrer"

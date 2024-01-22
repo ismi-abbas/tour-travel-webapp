@@ -17,7 +17,7 @@ const SearchResult = () => {
   const place = searchParams.get("place");
 
   const [searchQuery, setSearchQuery] = useState(
-    searchParams.get("place") || ""
+    searchParams.get("place") || "",
   );
   const itemsPerPage = 10;
 
@@ -31,7 +31,7 @@ const SearchResult = () => {
       const properties = path.split(".");
       return properties.reduce(
         (acc, prop) => (acc && acc[prop] ? acc[prop] : undefined),
-        obj
+        obj,
       );
     };
 
@@ -143,7 +143,7 @@ const SearchResult = () => {
                     <p className="inline-flex justify-start w-full">{rating}</p>
                   </div>
                 </Link>
-              )
+              ),
             )}
           </div>
           <div className="mt-4 flex justify-center">
