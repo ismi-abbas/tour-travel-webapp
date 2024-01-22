@@ -5,9 +5,6 @@ import LocationDropdown from "./locationDropdown";
 import hotelData from "../../../hotel_datasets.json";
 import restaurantData from "../../../restauran_datasets.json";
 import attactionsData from "../../../attractions.json";
-// import { db } from "../../services/firebase";
-// import { collection, getDocs } from "firebase/firestore";
-// import { useEffect } from "react";
 
 function useQuery() {
   const { search } = useLocation();
@@ -86,60 +83,53 @@ const CatalogPage = () => {
 };
 
 function CatalogList({ category, districtFilter }) {
-  const dataSets = useMemo(() => hotelData);
-  const resturantDataSets = useMemo(() => restaurantData);
+  const hotelDataSets = useMemo(() => hotelData);
+  const restaurantDataSets = useMemo(() => restaurantData);
   const attractionDataSets = useMemo(() => attactionsData);
-  // const [cloudData, setCloudData] = useState();
+  const concat = [
+    ...hotelDataSets,
+    ...restaurantDataSets,
+    ...attractionDataSets,
+  ];
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const pahangRef = await collection(db, "pahang");
-  //     const snapshot = await getDocs(pahangRef);
+  let filteredCatalog = useMemo(() => {
+    let result = concat;
 
-  //     if (snapshot.empty) {
-  //       console.log("No matching documents.");
-  //       return;
-  //     }
+    if (category === "historical" && districtFilter) {
+      result = result.filter((item) => {
+        const ancestorLocations = item.ancestorLocations || [];
+        const isMuseum = item.subcategories.includes("Museums");
+        const isMatchingDistrict = ancestorLocations.some(
+          (location) =>
+            location.name.replace(/\sDistrict$/, "")?.toLowerCase() ===
+            decodeURIComponent(districtFilter?.toLowerCase())
+        );
 
-  //     const newData = snapshot.docs.map((doc) => ({
-  //       id: doc.data().id,
-  //       name: doc.data().name,
-  //       address: doc.data().address,
-  //       description: doc.data().description,
-  //       image: doc.data().image,
-  //       rating: doc.data().rating,
-  //     }));
+        return isMuseum && isMatchingDistrict;
+      });
+    } else if (category === "historical") {
+      return result.filter((i) => i.subcategories.includes("Museums"));
+    } else {
+      result = result.filter((i) => i.category === category);
+    }
 
-  //     setCloudData(newData);
-  //   };
-
-  //   fetchData();
-  // }, []);
-
-  let filteredCatalog;
-  const concat = [...dataSets, ...resturantDataSets, ...attractionDataSets];
-  if (category === "historical") {
-    filteredCatalog = category
-      ? concat.filter((i) => i.subcategories.includes("Museums"))
-      : concat;
-  } else {
-    filteredCatalog = category
-      ? concat.filter((i) => i.category === category)
-      : concat;
-  }
-
-  filteredCatalog = districtFilter
-    ? concat.filter((i) => {
+    if (districtFilter && category !== "historical") {
+      result = result.filter((i) => {
         const ancestorLocations = i.ancestorLocations || [];
-        console.log(ancestorLocations);
-
         return ancestorLocations.some(
           (location) =>
             location.name.replace(/\sDistrict$/, "")?.toLowerCase() ===
             decodeURIComponent(districtFilter.toLowerCase())
         );
-      })
-    : concat;
+      });
+    }
+
+    if (!districtFilter && !category) {
+      result = concat;
+    }
+
+    return result;
+  }, [concat, category, districtFilter]);
 
   const itemsPerPage = 10;
 

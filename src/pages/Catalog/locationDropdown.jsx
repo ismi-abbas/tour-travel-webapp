@@ -12,10 +12,12 @@ const LocationDropdown = () => {
 
   const searchPlace = (place, isDistrict) => {
     if (!isDistrict) return;
-    setSearchQuery(encodeURIComponent(place)); // Update searchQuery with the correct value
+    setSearchQuery(encodeURIComponent(place));
 
-    setSearchParams({ filter: place });
-    navigate(`/tour-catalog?filter=${encodeURIComponent(place)}`);
+    const params = new URLSearchParams(window.location.search);
+    params.set("filter", place.toLowerCase());
+
+    navigate(`${window.location.pathname}?${params.toString()}`);
   };
 
   const location = [
