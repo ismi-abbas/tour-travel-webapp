@@ -1,4 +1,4 @@
-import "./App.css";
+import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import HomePage from "./pages/Home/home";
 import LandingPage from "./pages/Home/landing";
@@ -14,6 +14,7 @@ import DetailPageLogout from "./pages/Details/detail_page_logout";
 import SearchResult from "./pages/Home/search_result";
 import ContactPage from "./pages/contact";
 import AboutPage from "./pages/about";
+import PlanTour from "./pages/PlanTour/plan-tour";
 
 function App() {
   const router = createBrowserRouter([
@@ -61,6 +62,14 @@ function App() {
     {
       path: "/search",
       element: <SearchResult />,
+    },
+    {
+      path: "/plan",
+      element: (
+        <Protected>
+          <PlanTour />
+        </Protected>
+      ),
     },
     {
       path: "/signin",

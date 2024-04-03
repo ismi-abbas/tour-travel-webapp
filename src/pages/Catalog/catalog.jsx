@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import AuthenticatedLayout from "../AuthenticatedLayout";
+import Layout from "../AuthenticatedLayout";
 import { Link, useLocation } from "react-router-dom";
 import LocationDropdown from "./locationDropdown";
 import hotelData from "../../../hotel_datasets.json";
@@ -44,7 +44,7 @@ const CatalogPage = () => {
   ];
 
   return (
-    <AuthenticatedLayout>
+    <Layout>
       <div className="w-full">
         <div className="flex justify-end mb-8">
           <LocationDropdown />
@@ -78,7 +78,7 @@ const CatalogPage = () => {
           districtFilter={query.get("filter")}
         />
       </div>
-    </AuthenticatedLayout>
+    </Layout>
   );
 };
 

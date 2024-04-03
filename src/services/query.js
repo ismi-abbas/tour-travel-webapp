@@ -43,7 +43,6 @@ export async function getHotelsList(place) {
   );
 
   if (snapshot.empty) {
-    console.log("No matching documents.");
     return;
   }
 

@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import AuthenticatedLayout from "../AuthenticatedLayout";
+import Layout from "../AuthenticatedLayout";
 import { IoHeartCircleOutline, IoLink, IoPin, IoStar } from "react-icons/io5";
 import { useEffect } from "react";
 import { getPlaceDetails } from "../../services/query";
@@ -39,7 +39,7 @@ const DetailPage = () => {
   };
 
   return (
-    <AuthenticatedLayout>
+    <Layout>
       <div className="w-full p-4">
         <div id="title" className="mt-8 flex flex-col items-start">
           <div className="flex w-full justify-between items-center">
@@ -122,7 +122,7 @@ const DetailPage = () => {
           </div>
         </div>
       </div>
-    </AuthenticatedLayout>
+    </Layout>
   );
 };
 

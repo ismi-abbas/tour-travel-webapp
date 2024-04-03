@@ -32,6 +32,7 @@ const LoggedNavbar = () => {
       <ul className="hidden md:flex space-x-8">
         <LinkComponent location="/home" locationName="Home" />
         <LinkComponent location="/tour-catalog" locationName="Tour Catalog" />
+        <LinkComponent location="/plan" locationName="Plan Your Trip" />
         <LinkComponent location="/about" locationName="About us" />
         <LinkComponent location="/contact" locationName="Contact" />
       </ul>
