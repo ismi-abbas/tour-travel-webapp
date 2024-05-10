@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { AiFillStar } from "react-icons/ai";
 import { IoLocationOutline } from "react-icons/io5";
 import { getAttractions } from "../../../services/query";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 
 const Places = () => {
   const [places, setPlaces] = useState({});

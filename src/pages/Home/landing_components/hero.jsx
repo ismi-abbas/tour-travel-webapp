@@ -1,17 +1,15 @@
 import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
 
 const Hero = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState(
-    searchParams.get("place") || "",
-  );
+  // const [searchParams, setSearchParams] = useSearchParams();
+  // const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState();
+  // searchParams.get("place") || "",
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setSearchParams({ place: searchQuery });
-    navigate(`/search?place=${encodeURIComponent(searchQuery)}`);
+    // setSearchParams({ place: searchQuery });
+    // navigate(`/search?place=${encodeURIComponent(searchQuery)}`);
   };
 
   return (

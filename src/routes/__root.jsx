@@ -1,8 +1,14 @@
-import { Link } from "@tanstack/react-router";
+import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { Toaster } from "react-hot-toast";
 
-const Navbar = () => {
+export const Route = createRootRoute({
+  component: Root,
+});
+
+function Navbar() {
   return (
-    <div className="p-5 flex justify-between items-center">
+    <nav className="p-5 flex justify-between items-center">
       <Link
         to="/"
         className="text-2xl font-semibold hover:cursor-pointer flex flex-col items-start"
@@ -38,8 +44,18 @@ const Navbar = () => {
           <Link to="/signup">Sign up</Link>
         </button>
       </div>
-    </div>
+    </nav>
   );
-};
-
-export default Navbar;
+}
+function Root() {
+  return (
+    <>
+      <Navbar />
+      <div className="container mx-auto">
+        <Outlet />
+        <Toaster />
+      </div>
+      <TanStackRouterDevtools />
+    </>
+  );
+}
