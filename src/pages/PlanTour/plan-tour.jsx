@@ -1,9 +1,45 @@
 import Layout from "../AuthenticatedLayout";
 
+function populateDistrcits(state) {
+  switch (state) {
+    case "Terengganu":
+      return ["dungun", "perhentian"];
+    case "Kelantan":
+      return ["kota bharu", "tumpat", "gua musang", "rantau panjang"];
+    case "Pahang":
+      return [
+        "perak",
+        "kota melanu",
+        "kota tawau",
+        "kota pusing",
+        "kota kuantan",
+      ];
+    default:
+      return [];
+  }
+}
 export default function PlanTour() {
   const criterias = [
     {
-      name: "criteria 1",
+      name: "State",
+      value: "state",
+      options: [
+        { name: "Kelantan", value: "option1" },
+        { name: "Terengganu", value: "option2" },
+        { name: "Pahang", value: "option3" },
+      ],
+    },
+    {
+      name: "District",
+      value: "district",
+      options: [
+        { name: "option 1", value: "option1" },
+        { name: "option 2", value: "option2" },
+        { name: "option 3", value: "option3" },
+      ],
+    },
+    {
+      name: "Rating",
       value: "criteria1",
       options: [
         { name: "option 1", value: "option1" },
@@ -12,7 +48,7 @@ export default function PlanTour() {
       ],
     },
     {
-      name: "criteria 2",
+      name: "Distance",
       value: "criteria2",
       options: [
         { name: "option 1", value: "option1" },
@@ -21,7 +57,8 @@ export default function PlanTour() {
       ],
     },
     {
-      name: "criteria 3",
+      // for hotel and resturants
+      name: "Price Range",
       value: "criteria3",
       options: [
         { name: "option 1", value: "option1" },
@@ -29,70 +66,8 @@ export default function PlanTour() {
         { name: "option 3", value: "option3" },
       ],
     },
-    {
-      name: "criteria 4",
-      value: "criteria4",
-      options: [
-        { name: "option 1", value: "option1" },
-        { name: "option 2", value: "option2" },
-        { name: "option 3", value: "option3" },
-      ],
-    },
-    {
-      name: "criteria 5",
-      value: "criteria5",
-      options: [
-        { name: "option 1", value: "option1" },
-        { name: "option 2", value: "option2" },
-        { name: "option 3", value: "option3" },
-      ],
-    },
-    {
-      name: "criteria 6",
-      value: "criteria6",
-      options: [
-        { name: "option 1", value: "option1" },
-        { name: "option 2", value: "option2" },
-        { name: "option 3", value: "option3" },
-      ],
-    },
-    {
-      name: "criteria 7",
-      value: "criteria7",
-      options: [
-        { name: "option 1", value: "option1" },
-        { name: "option 2", value: "option2" },
-        { name: "option 3", value: "option3" },
-      ],
-    },
-    {
-      name: "criteria 8",
-      value: "criteria8",
-      options: [
-        { name: "option 1", value: "option1" },
-        { name: "option 2", value: "option2" },
-        { name: "option 3", value: "option3" },
-      ],
-    },
-    {
-      name: "criteria 9",
-      value: "criteria9",
-      options: [
-        { name: "option 1", value: "option1" },
-        { name: "option 2", value: "option2" },
-        { name: "option 3", value: "option3" },
-      ],
-    },
-    {
-      name: "criteria 10",
-      value: "criteria10",
-      options: [
-        { name: "option 1", value: "option1" },
-        { name: "option 2", value: "option2" },
-        { name: "option 3", value: "option3" },
-      ],
-    },
   ];
+
   return (
     <Layout>
       <div className="h-20 flex flex-col mt-10">
