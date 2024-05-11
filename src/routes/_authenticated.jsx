@@ -1,22 +1,35 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Navigate, Outlet, createFileRoute } from "@tanstack/react-router";
+import supabase from "../lib/supabase";
 
-let auth = true;
+const Component = () => {
+  const { session } = Route.useRouteContext();
+
+  if (!session) {
+    Navigate({ to: "/sign-in" });
+  }
+
+  return <Outlet />;
+};
 
 export const Route = createFileRoute("/_authenticated")({
-  beforeLoad: async ({ location }) => {
-    if (!auth) {
-      console.log(location.href);
+  beforeLoad: async () => {
+    try {
+      const { data, error } = await supabase.auth.getSession();
+
+      if (error) {
+        return {
+          session: null,
+        };
+      }
+
+      return {
+        session: data.session,
+      };
+    } catch (error) {
+      console.log(error);
+
+      throw new Error("Failed to load session");
     }
   },
-  component: Login,
+  component: Component,
 });
-
-function Login() {
-  return (
-    <div>
-      <h1>Please Login</h1>
-
-      <button>Login</button>
-    </div>
-  );
-}

@@ -1,86 +1,19 @@
-import { useMemo, useState } from "react";
-import Layout from "../AuthenticatedLayout";
-import { Link, useLocation } from "react-router-dom";
-import LocationDropdown from "./locationDropdown";
+import { createFileRoute } from "@tanstack/react-router";
+import { useState, useMemo } from "react";
+import LocationDropdown from "../../components/locationDropdown";
+import { Link } from "@tanstack/react-router";
 import hotelData from "../../../hotel_datasets.json";
 import restaurantData from "../../../restauran_datasets.json";
 import attactionsData from "../../../attractions.json";
 
+export const Route = createFileRoute("/_authenticated/catalog")({
+  component: CatalogPage,
+});
+
 function useQuery() {
-  const { search } = useLocation();
-  return useMemo(() => new URLSearchParams(search), [search]);
+  // const { search } = useLocation();
+  // return useMemo(() => new URLSearchParams(search), [search]);
 }
-
-const CatalogPage = () => {
-  const query = useQuery();
-  const [currentSelectedCategory, setSelectedCategory] = useState();
-
-  const categories = [
-    {
-      name: "restaurant",
-      value: "restaurant",
-      type: "restaurant",
-    },
-    {
-      name: "cafe",
-      value: "restaurant",
-      type: "restaurant",
-    },
-    {
-      name: "things to do",
-      value: "attraction",
-      type: "attraction",
-    },
-    {
-      name: "historical",
-      value: "historical",
-      type: "attraction",
-    },
-    {
-      name: "hotel",
-      value: "hotel",
-      type: "hotel",
-    },
-  ];
-
-  return (
-    <Layout>
-      <div className="w-full">
-        <div className="flex justify-end mb-8">
-          <LocationDropdown />
-        </div>
-        <div className="flex justify-center">
-          <ul className="flex justify-between w-full lg:mx-32 mx-48">
-            {categories.map((item) => (
-              <Link
-                className={`
-                border p-2 rounded-lg capitalize w-32 hover:shadow-sm hover:cursor-pointer hover:ring-2 hover:ring-indigo-500
-                ${
-                  currentSelectedCategory === item.name
-                    ? "text-indigo-700 ring-2 ring-indigo-500"
-                    : "text-black"
-                }`}
-                key={item.name}
-                to={{
-                  pathname: "/tour-catalog",
-                  search: `?category=${item.value}`,
-                }}
-                onClick={() => setSelectedCategory(item.name)}
-              >
-                <div className={""}>{item.name}</div>
-              </Link>
-            ))}
-          </ul>
-        </div>
-
-        <CatalogList
-          category={query.get("category")}
-          districtFilter={query.get("filter")}
-        />
-      </div>
-    </Layout>
-  );
-};
 
 function CatalogList({ category, districtFilter }) {
   const hotelDataSets = useMemo(() => hotelData);
@@ -224,4 +157,71 @@ function CatalogList({ category, districtFilter }) {
   );
 }
 
-export default CatalogPage;
+function CatalogPage() {
+  const categories = [
+    {
+      name: "restaurant",
+      value: "restaurant",
+      type: "restaurant",
+    },
+    {
+      name: "cafe",
+      value: "restaurant",
+      type: "restaurant",
+    },
+    {
+      name: "things to do",
+      value: "attraction",
+      type: "attraction",
+    },
+    {
+      name: "historical",
+      value: "historical",
+      type: "attraction",
+    },
+    {
+      name: "hotel",
+      value: "hotel",
+      type: "hotel",
+    },
+  ];
+
+  const query = useQuery();
+  const [currentSelectedCategory, setSelectedCategory] = useState();
+
+  return (
+    <div className="w-full">
+      <div className="flex justify-end mb-8">
+        <LocationDropdown />
+      </div>
+      <div className="flex justify-center">
+        <ul className="flex justify-between w-full lg:mx-32 mx-48">
+          {categories.map((item) => (
+            <Link
+              className={`
+            border p-2 rounded-lg capitalize w-32 hover:shadow-sm hover:cursor-pointer hover:ring-2 hover:ring-indigo-500
+            ${
+              currentSelectedCategory === item.name
+                ? "text-indigo-700 ring-2 ring-indigo-500"
+                : "text-black"
+            }`}
+              key={item.name}
+              to={{
+                pathname: "/tour-catalog",
+                search: `?category=${item.value}`,
+              }}
+              onClick={() => setSelectedCategory(item.name)}
+            >
+              <div className={""}>{item.name}</div>
+            </Link>
+          ))}
+        </ul>
+      </div>
+
+      <CatalogList
+        category={query.get("category")}
+        districtFilter={query.get("filter")}
+      />
+    </div>
+  );
+}

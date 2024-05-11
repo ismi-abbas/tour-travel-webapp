@@ -1,8 +1,8 @@
-import Dropdown from "react-multilevel-dropdown";
-import { useNavigate } from "react-router-dom";
+// import Dropdown from "react-multilevel-dropdown";
+import { useNavigate } from "@tanstack/react-router";
 
 const LocationDropdown = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate({ from: "/catalog" });
 
   const searchPlace = (place, isDistrict) => {
     if (!isDistrict) return;
@@ -10,7 +10,7 @@ const LocationDropdown = () => {
     const params = new URLSearchParams(window.location.search);
     params.set("filter", place.toLowerCase());
 
-    navigate(`${window.location.pathname}?${params.toString()}`);
+    navigate({ to: `${window.location.pathname}?${params.toString()}` });
   };
 
   const location = [
@@ -64,30 +64,31 @@ const LocationDropdown = () => {
   ];
 
   return (
-    <Dropdown title="Location" buttonClassName="bg-white">
-      {location.map((state, index) => (
-        <Dropdown.Item
-          key={index}
-          className="capitalize"
-          onClick={() => searchPlace(state.name, false)}
-        >
-          {state.name}
-          {state.district.length > 0 && (
-            <Dropdown.Submenu>
-              {state.district.map((district, index) => (
-                <Dropdown.Item
-                  key={index}
-                  className="capitalize"
-                  onClick={() => searchPlace(district, true)}
-                >
-                  {district}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Submenu>
-          )}
-        </Dropdown.Item>
-      ))}
-    </Dropdown>
+    <>Dropdown</>
+    // <Dropdown title="Location" buttonClassName="bg-white">
+    //   {location.map((state, index) => (
+    //     <Dropdown.Item
+    //       key={index}
+    //       className="capitalize"
+    //       onClick={() => searchPlace(state.name, false)}
+    //     >
+    //       {state.name}
+    //       {state.district.length > 0 && (
+    //         <Dropdown.Submenu>
+    //           {state.district.map((district, index) => (
+    //             <Dropdown.Item
+    //               key={index}
+    //               className="capitalize"
+    //               onClick={() => searchPlace(district, true)}
+    //             >
+    //               {district}
+    //             </Dropdown.Item>
+    //           ))}
+    //         </Dropdown.Submenu>
+    //       )}
+    //     </Dropdown.Item>
+    //   ))}
+    // </Dropdown>
   );
 };
 

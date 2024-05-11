@@ -25,6 +25,6 @@ dist-ssr
 /.firebase
 public
 
-
 # Contentlayer
 .contentlayer
+.env

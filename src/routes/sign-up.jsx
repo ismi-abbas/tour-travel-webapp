@@ -1,28 +1,21 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { auth, db } from "../../../services/firebase";
-import { setDoc, doc } from "firebase/firestore";
-import toast from "react-hot-toast";
+import supabase from "../lib/supabase";
+
+export const Route = createFileRoute("/sign-up")({
+  component: SignUp,
+});
 
 function SignUpForm() {
-  //--//
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
-  //--//
   const [error, setError] = useState(null);
-  //--//
-  const [loading, setLoading] = useState(false);
-  //--//
-  const user = "user";
-
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
     if (!email || !password || !name || !confirmPassword) {
       setError("Please enter all required fields.");
@@ -34,30 +27,22 @@ function SignUpForm() {
       return;
     }
 
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      const users = userCredential.user;
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
 
-      await setDoc(doc(db, "users", users.uid), {
-        uid: users.uid,
-        name: name,
-        email,
-        roles: user,
-      });
-
-      toast.success("Account Created!");
-      navigate("/signin");
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to create an account");
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    if (error) {
+      setError(error.message);
     }
+
+    if (data) {
+      return data.user;
+    }
+
+    navigate({
+      to: "/dashboard",
+    });
   };
 
   return (
@@ -137,6 +122,7 @@ function SignUpForm() {
               <button
                 type="submit"
                 className="w-full px-4 py-2 tracking-wide border border-black border-solid duration-300 relative after:absolute after:top-0 after:right-full after:bg-blue-900 after:z-10 after:w-full after:h-full overflow-hidden hover:after:translate-x-full after:duration-300 hover:text-white"
+                onClick={handleSignUp}
               >
                 <h2 className="relative z-20">Sign Up</h2>
               </button>
@@ -158,4 +144,17 @@ function SignUpForm() {
   );
 }
 
-export default SignUpForm;
+function SignUp() {
+  return (
+    <div className="flex flex-col items-center h-screen w-full">
+      <div className="flex justify-center">
+        <h1 className="text-2xl font-semibold hover:cursor-pointer">
+          <Link to="/">Smart Tourist Guide Planner</Link>
+        </h1>
+      </div>
+      <div className="mt-8">
+        <SignUpForm />
+      </div>
+    </div>
+  );
+}

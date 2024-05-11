@@ -11,13 +11,32 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as TestImport } from './routes/test'
+import { Route as SignUpImport } from './routes/sign-up'
+import { Route as SignInImport } from './routes/sign-in'
 import { Route as ContactImport } from './routes/contact'
 import { Route as AboutImport } from './routes/about'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthenticatedDashboardImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedCatalogImport } from './routes/_authenticated/catalog'
 
 // Create/Update Routes
+
+const TestRoute = TestImport.update({
+  path: '/test',
+  getParentRoute: () => rootRoute,
+})
+
+const SignUpRoute = SignUpImport.update({
+  path: '/sign-up',
+  getParentRoute: () => rootRoute,
+})
+
+const SignInRoute = SignInImport.update({
+  path: '/sign-in',
+  getParentRoute: () => rootRoute,
+})
 
 const ContactRoute = ContactImport.update({
   path: '/contact',
@@ -44,13 +63,24 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardImport.update({
   getParentRoute: () => AuthenticatedRoute,
 })
 
+const AuthenticatedCatalogRoute = AuthenticatedCatalogImport.update({
+  path: '/catalog',
+  getParentRoute: () => AuthenticatedRoute,
+})
+
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
-  AuthenticatedRoute.addChildren([AuthenticatedDashboardRoute]),
+  AuthenticatedRoute.addChildren([
+    AuthenticatedCatalogRoute,
+    AuthenticatedDashboardRoute,
+  ]),
   AboutRoute,
   ContactRoute,
+  SignInRoute,
+  SignUpRoute,
+  TestRoute,
 ])
 
 /* prettier-ignore-end */
