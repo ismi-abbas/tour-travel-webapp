@@ -1,12 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
-import LocationDropdown from "../../components/locationDropdown";
+import LocationDropdown from "../../../components/locationDropdown";
 import { Link } from "@tanstack/react-router";
-import hotelData from "../../../hotel_datasets.json";
-import restaurantData from "../../../restauran_datasets.json";
-import attactionsData from "../../../attractions.json";
 
-export const Route = createFileRoute("/_authenticated/catalog")({
+export const Route = createFileRoute("/_authenticated/(catalog)/catalog")({
   component: CatalogPage,
 });
 
@@ -16,14 +13,7 @@ function useQuery() {
 }
 
 function CatalogList({ category, districtFilter }) {
-  const hotelDataSets = useMemo(() => hotelData);
-  const restaurantDataSets = useMemo(() => restaurantData);
-  const attractionDataSets = useMemo(() => attactionsData);
-  const concat = [
-    ...hotelDataSets,
-    ...restaurantDataSets,
-    ...attractionDataSets,
-  ];
+  const concat = [...[], ...[], ...[]];
 
   const filteredCatalog = useMemo(() => {
     let result = concat;

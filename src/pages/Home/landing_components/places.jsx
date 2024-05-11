@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { AiFillStar } from "react-icons/ai";
 import { IoLocationOutline } from "react-icons/io5";
-import { getAttractions } from "../../../services/query";
 import { Link } from "@tanstack/react-router";
 
 const Places = () => {
@@ -9,13 +8,13 @@ const Places = () => {
 
   async function fetchPlaces() {
     const allPlaces = {};
-    const pahangList = await getAttractions("Pahang");
-    const kelantanList = await getAttractions("Kelantan");
-    const terengganuList = await getAttractions("Terengganu");
+    // const pahangList = await getAttractions("Pahang");
+    // const kelantanList = await getAttractions("Kelantan");
+    // const terengganuList = await getAttractions("Terengganu");
 
-    allPlaces["pahang"] = pahangList;
-    allPlaces["terengganu"] = terengganuList;
-    allPlaces["kelantan"] = kelantanList;
+    // allPlaces["pahang"] = pahangList;
+    // allPlaces["terengganu"] = terengganuList;
+    // allPlaces["kelantan"] = kelantanList;
 
     setPlaces(allPlaces);
   }

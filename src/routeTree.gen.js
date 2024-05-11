@@ -11,22 +11,17 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as TestImport } from './routes/test'
 import { Route as SignUpImport } from './routes/sign-up'
 import { Route as SignInImport } from './routes/sign-in'
+import { Route as DetailsImport } from './routes/details'
 import { Route as ContactImport } from './routes/contact'
 import { Route as AboutImport } from './routes/about'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
-import { Route as IndexImport } from './routes/index'
-import { Route as AuthenticatedDashboardImport } from './routes/_authenticated/dashboard'
-import { Route as AuthenticatedCatalogImport } from './routes/_authenticated/catalog'
+import { Route as homeIndexImport } from './routes/(home)/index'
+import { Route as AuthenticateddashboardDashboardImport } from './routes/_authenticated/(dashboard)/dashboard'
+import { Route as AuthenticatedcatalogCatalogImport } from './routes/_authenticated/(catalog)/catalog'
 
 // Create/Update Routes
-
-const TestRoute = TestImport.update({
-  path: '/test',
-  getParentRoute: () => rootRoute,
-})
 
 const SignUpRoute = SignUpImport.update({
   path: '/sign-up',
@@ -35,6 +30,11 @@ const SignUpRoute = SignUpImport.update({
 
 const SignInRoute = SignInImport.update({
   path: '/sign-in',
+  getParentRoute: () => rootRoute,
+})
+
+const DetailsRoute = DetailsImport.update({
+  path: '/details',
   getParentRoute: () => rootRoute,
 })
 
@@ -53,34 +53,36 @@ const AuthenticatedRoute = AuthenticatedImport.update({
   getParentRoute: () => rootRoute,
 })
 
-const IndexRoute = IndexImport.update({
+const homeIndexRoute = homeIndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 })
 
-const AuthenticatedDashboardRoute = AuthenticatedDashboardImport.update({
-  path: '/dashboard',
-  getParentRoute: () => AuthenticatedRoute,
-})
+const AuthenticateddashboardDashboardRoute =
+  AuthenticateddashboardDashboardImport.update({
+    path: '/dashboard',
+    getParentRoute: () => AuthenticatedRoute,
+  })
 
-const AuthenticatedCatalogRoute = AuthenticatedCatalogImport.update({
-  path: '/catalog',
-  getParentRoute: () => AuthenticatedRoute,
-})
+const AuthenticatedcatalogCatalogRoute =
+  AuthenticatedcatalogCatalogImport.update({
+    path: '/catalog',
+    getParentRoute: () => AuthenticatedRoute,
+  })
 
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren([
-  IndexRoute,
   AuthenticatedRoute.addChildren([
-    AuthenticatedCatalogRoute,
-    AuthenticatedDashboardRoute,
+    AuthenticatedcatalogCatalogRoute,
+    AuthenticateddashboardDashboardRoute,
   ]),
   AboutRoute,
   ContactRoute,
+  DetailsRoute,
   SignInRoute,
   SignUpRoute,
-  TestRoute,
+  homeIndexRoute,
 ])
 
 /* prettier-ignore-end */

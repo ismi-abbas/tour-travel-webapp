@@ -26,8 +26,6 @@ export const Route = createFileRoute("/_authenticated")({
         session: data.session,
       };
     } catch (error) {
-      console.log(error);
-
       throw new Error("Failed to load session");
     }
   },

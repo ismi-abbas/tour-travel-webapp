@@ -9,7 +9,6 @@ import { NotFound } from "./pages/NotFound";
 const router = createRouter({
   routeTree,
   defaultNotFoundComponent: NotFound,
-  defaultErrorComponent: NotFound,
 });
 
 ReactDOM.createRoot(document.getElementById("root")).render(
