@@ -1,14 +1,39 @@
-import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
+import {
+  createRootRoute,
+  Link,
+  Outlet,
+  useNavigate,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Toaster } from "react-hot-toast";
 import supabase from "../lib/supabase";
+import { useEffect, useState } from "react";
 
 export const Route = createRootRoute({
   component: Root,
 });
 
 function Navbar() {
-  const { session } = supabase.auth.getSession();
+  const navigate = useNavigate();
+  const [session, setSession] = useState(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+  }, []);
+
+  const logout = async () => {
+    await supabase.auth.signOut();
+    setSession(null);
+
+    navigate({ to: "/sign-in" });
+  };
+
   return (
     <nav className="p-5 flex justify-between items-center">
       <Link
@@ -37,23 +62,33 @@ function Navbar() {
         >
           Contact
         </Link>
-        {session ?? (
+        {session && (
           <Link
-            to="/dashboard"
+            to="/planner"
             className="hover:cursor-pointer hover:border-b border-orange-500"
           >
-            Dashboard
+            Planner
           </Link>
         )}
       </ul>
-      <div className="flex items-center space-x-5">
-        <button type="button" className="px-5 py-2 rounded bg-gray-100">
-          <Link to="/sign-in">Sign In</Link>
+      {!session ? (
+        <div className="flex items-center space-x-5">
+          <button type="button" className="px-5 py-2 rounded bg-gray-100">
+            <Link to="/sign-in">Sign In</Link>
+          </button>
+          <button type="button" className="px-5 py-2 rounded bg-gray-100">
+            <Link to="/sign-up">Sign up</Link>
+          </button>
+        </div>
+      ) : (
+        <button
+          type="button"
+          className="px-5 py-2 rounded bg-gray-100"
+          onClick={logout}
+        >
+          Logout
         </button>
-        <button type="button" className="px-5 py-2 rounded bg-gray-100">
-          <Link to="/sign-up">Sign up</Link>
-        </button>
-      </div>
+      )}
     </nav>
   );
 }

@@ -3,7 +3,7 @@ import { useState } from "react";
 import supabase from "../lib/supabase";
 
 export const Route = createFileRoute("/sign-up")({
-  component: SignUp,
+  component: SignUp
 });
 
 function SignUpForm() {
@@ -29,7 +29,7 @@ function SignUpForm() {
 
     const { data, error } = await supabase.auth.signUp({
       email,
-      password,
+      password
     });
 
     if (error) {
@@ -41,15 +41,17 @@ function SignUpForm() {
     }
 
     navigate({
-      to: "/dashboard",
+      to: "/dashboard"
     });
   };
 
   return (
     <div className="flex items-center justify-center w-full">
-      <div className="flex w-full items-center justify-center max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg  lg:max-w-4xl">
+      <div
+        className="flex w-full items-center justify-center max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg  lg:max-w-4xl">
         <div className="hidden lg:block lg:w-1/2">
-          <img src="https://images.pexels.com/photos/4993151/pexels-photo-4993151.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+          <img
+            src="https://images.pexels.com/photos/4993151/pexels-photo-4993151.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
         </div>
 
         <div className="w-full  px-6 py-20 md:px-8 lg:w-1/2">
@@ -121,7 +123,7 @@ function SignUpForm() {
             <div className="mt-8">
               <button
                 type="submit"
-                className="w-full px-4 py-2 tracking-wide border border-black border-solid duration-300 relative after:absolute after:top-0 after:right-full after:bg-blue-900 after:z-10 after:w-full after:h-full overflow-hidden hover:after:translate-x-full after:duration-300 hover:text-white"
+                className="w-full px-4 py-2 tracking-wide border border-black border-solid hover:bg-blue-900 overflow-hidden  hover:text-white"
                 onClick={handleSignUp}
               >
                 <h2 className="relative z-20">Sign Up</h2>
@@ -147,11 +149,6 @@ function SignUpForm() {
 function SignUp() {
   return (
     <div className="flex flex-col items-center h-screen w-full">
-      <div className="flex justify-center">
-        <h1 className="text-2xl font-semibold hover:cursor-pointer">
-          <Link to="/">Smart Tourist Guide Planner</Link>
-        </h1>
-      </div>
       <div className="mt-8">
         <SignUpForm />
       </div>

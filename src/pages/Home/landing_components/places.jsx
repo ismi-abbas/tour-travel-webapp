@@ -1,20 +1,26 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AiFillStar } from "react-icons/ai";
 import { IoLocationOutline } from "react-icons/io5";
 import { Link } from "@tanstack/react-router";
+import supabase from "../../../lib/supabase.js";
 
 const Places = () => {
   const [places, setPlaces] = useState({});
 
   async function fetchPlaces() {
-    const allPlaces = {};
-    // const pahangList = await getAttractions("Pahang");
-    // const kelantanList = await getAttractions("Kelantan");
-    // const terengganuList = await getAttractions("Terengganu");
+    const { data } = await supabase.from("places").select();
 
-    // allPlaces["pahang"] = pahangList;
-    // allPlaces["terengganu"] = terengganuList;
-    // allPlaces["kelantan"] = kelantanList;
+    const allPlaces = {};
+
+    allPlaces["pahang"] = data
+      .filter((data) => data.state.toLowerCase() === "pahang")
+      .slice(0, 8);
+    allPlaces["terengganu"] = data
+      .filter((data) => data.state.toLowerCase() === "terengganu")
+      .slice(0, 8);
+    allPlaces["kelantan"] = data
+      .filter((data) => data.state.toLowerCase() === "kelantan")
+      .slice(0, 8);
 
     setPlaces(allPlaces);
   }

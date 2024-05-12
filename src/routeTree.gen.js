@@ -18,7 +18,7 @@ import { Route as ContactImport } from './routes/contact'
 import { Route as AboutImport } from './routes/about'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as homeIndexImport } from './routes/(home)/index'
-import { Route as AuthenticateddashboardDashboardImport } from './routes/_authenticated/(dashboard)/dashboard'
+import { Route as AuthenticateddashboardPlannerImport } from './routes/_authenticated/(dashboard)/planner'
 import { Route as AuthenticatedcatalogCatalogImport } from './routes/_authenticated/(catalog)/catalog'
 
 // Create/Update Routes
@@ -58,9 +58,9 @@ const homeIndexRoute = homeIndexImport.update({
   getParentRoute: () => rootRoute,
 })
 
-const AuthenticateddashboardDashboardRoute =
-  AuthenticateddashboardDashboardImport.update({
-    path: '/dashboard',
+const AuthenticateddashboardPlannerRoute =
+  AuthenticateddashboardPlannerImport.update({
+    path: '/planner',
     getParentRoute: () => AuthenticatedRoute,
   })
 
@@ -75,7 +75,7 @@ const AuthenticatedcatalogCatalogRoute =
 export const routeTree = rootRoute.addChildren([
   AuthenticatedRoute.addChildren([
     AuthenticatedcatalogCatalogRoute,
-    AuthenticateddashboardDashboardRoute,
+    AuthenticateddashboardPlannerRoute,
   ]),
   AboutRoute,
   ContactRoute,

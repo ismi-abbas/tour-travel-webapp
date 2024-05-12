@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import supabase from "../lib/supabase";
 
@@ -7,6 +7,8 @@ export const Route = createFileRoute("/sign-in")({
 });
 
 export function SignIn() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,9 +21,16 @@ export function SignIn() {
       password,
     });
 
-    console.log(data, error, data.user, data.session);
+    if (error) {
+      alert(error.message);
+    }
 
-    // return data.user;
+    navigate({
+      to: "/dashboard",
+      state: {
+        user: data.user,
+      },
+    });
   }
 
   return (
@@ -85,7 +94,7 @@ export function SignIn() {
             <div className="mt-8">
               <button
                 type="submit"
-                className="w-full px-4 py-2 tracking-wide border border-black border-solid duration-300 relative after:absolute after:top-0 after:right-full after:bg-blue-900 after:z-10 after:w-full after:h-full overflow-hidden hover:after:translate-x-full after:duration-300 hover:text-white "
+                className="w-full px-4 py-2 tracking-wide border border-black border-solid hover:bg-blue-900 overflow-hidden  hover:text-white"
               >
                 <h2 className="relative z-20">Sign In</h2>
               </button>
