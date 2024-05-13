@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import supabase from "../lib/supabase";
+import toast from "react-hot-toast";
 
 export const Route = createFileRoute("/sign-in")({
   component: SignIn,
@@ -14,7 +15,6 @@ export function SignIn() {
 
   async function handleSignIn(e) {
     e.preventDefault();
-    alert(email, password);
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -22,11 +22,12 @@ export function SignIn() {
     });
 
     if (error) {
-      alert(error.message);
+      toast.error(error.message);
+      return;
     }
 
     navigate({
-      to: "/dashboard",
+      to: "/planner",
       state: {
         user: data.user,
       },

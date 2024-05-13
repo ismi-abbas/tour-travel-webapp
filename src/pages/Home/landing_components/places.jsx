@@ -1,33 +1,36 @@
-import { useEffect, useState } from "react";
 import { AiFillStar } from "react-icons/ai";
 import { IoLocationOutline } from "react-icons/io5";
 import { Link } from "@tanstack/react-router";
 import supabase from "../../../lib/supabase.js";
+import { useQuery } from "@tanstack/react-query";
 
 const Places = () => {
-  const [places, setPlaces] = useState({});
+  const { data, isError } = useQuery({
+    queryKey: ["get-places"],
+    queryFn: fetchPlaces,
+    staleTime: 1000 * 60 * 5,
+  });
 
   async function fetchPlaces() {
-    const { data } = await supabase.from("places").select();
+    const { data, error } = await supabase.from("places").select();
 
-    const allPlaces = {};
-
-    allPlaces["pahang"] = data
+    if (error) return error;
+    const pahang = data
       .filter((data) => data.state.toLowerCase() === "pahang")
       .slice(0, 8);
-    allPlaces["terengganu"] = data
+    const terengganu = data
       .filter((data) => data.state.toLowerCase() === "terengganu")
       .slice(0, 8);
-    allPlaces["kelantan"] = data
+    const kelantan = data
       .filter((data) => data.state.toLowerCase() === "kelantan")
       .slice(0, 8);
 
-    setPlaces(allPlaces);
+    return {
+      kelantan: kelantan,
+      pahang: pahang,
+      terengganu: terengganu,
+    };
   }
-
-  useEffect(() => {
-    fetchPlaces();
-  }, []);
 
   return (
     <div className="py-10">
@@ -40,56 +43,62 @@ const Places = () => {
           View All
         </Link>
       </div>
-      {/* Place state sections dynamically based on fetched data */}
-      {Object.keys(places).map((state) => (
-        <div key={state} className="mb-10">
-          <h2 className="text-2xl font-bold capitalize mb-4">{state}</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {places[state].length > 0 ? (
-              places[state].map((place) => (
-                <Link
-                  to={`/details/attractions/${place.id}`}
-                  key={place.id}
-                  className="place w-full bg-white border rounded-lg overflow-hidden hover:cursor-pointer hover:ring-2 hover:ring-indigo-600"
-                >
-                  <div className="h-[150px] md:h-[230px] overflow-hidden">
-                    <img
-                      src={
-                        place.image !== ""
-                          ? place.image
-                          : "https://via.placeholder.com/400x200?text=No+Image"
-                      }
-                      alt={place.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-4 flex flex-col justify-end">
-                    <h3 className="text-xl font-semibold mb-2 w-full">
-                      {place.name}
-                    </h3>
-                    <div className="flex justify-between items-center mb-2">
-                      <p className="flex items-center space-x-2 text-yellow-500">
-                        <AiFillStar />
-                        <span>{place.rating}</span>
+      {isError ? (
+        <div className="flex flex-1 justify-center">
+          <h2 className="text-xl">Server Error</h2>
+        </div>
+      ) : (
+        data &&
+        Object.keys(data).map((state) => (
+          <div key={state} className="mb-10">
+            <h2 className="text-2xl font-bold capitalize mb-4">{state}</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {data[state].length > 0 ? (
+                data[state].map((place) => (
+                  <Link
+                    to={`/details/attractions/${place.id}`}
+                    key={place.id}
+                    className="place w-full bg-white border rounded-lg overflow-hidden hover:cursor-pointer hover:ring-2 hover:ring-indigo-600"
+                  >
+                    <div className="h-[150px] md:h-[230px] overflow-hidden">
+                      <img
+                        src={
+                          place.image !== ""
+                            ? place.image
+                            : "https://via.placeholder.com/400x200?text=No+Image"
+                        }
+                        alt={place.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="p-4 flex flex-col justify-end">
+                      <h3 className="text-xl font-semibold mb-2 w-full">
+                        {place.name}
+                      </h3>
+                      <div className="flex justify-between items-center mb-2">
+                        <p className="flex items-center space-x-2 text-yellow-500">
+                          <AiFillStar />
+                          <span>{place.rating}</span>
+                        </p>
+                      </div>
+                      <p className="flex items-center justify-start space-x-2 text-gray-500 h-4">
+                        <IoLocationOutline />
+                        <span className="text-start overflow-hidden truncate">
+                          {place.address}
+                        </span>
                       </p>
                     </div>
-                    <p className="flex items-center justify-start space-x-2 text-gray-500 h-4">
-                      <IoLocationOutline />
-                      <span className="text-start overflow-hidden truncate">
-                        {place.address}
-                      </span>
-                    </p>
-                  </div>
-                </Link>
-              ))
-            ) : (
-              <div className="places flex flex-col items-center">
-                <p className="text-center">No Places Found</p>
-              </div>
-            )}
+                  </Link>
+                ))
+              ) : (
+                <div className="places flex flex-col items-center">
+                  <p className="text-center">No Places Found</p>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 };

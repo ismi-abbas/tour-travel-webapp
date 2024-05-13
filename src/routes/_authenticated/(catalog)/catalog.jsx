@@ -11,10 +11,9 @@ function useQuery() {
   // const { search } = useLocation();
   // return useMemo(() => new URLSearchParams(search), [search]);
 }
+const concat = [...[], ...[], ...[]];
 
 function CatalogList({ category, districtFilter }) {
-  const concat = [...[], ...[], ...[]];
-
   const filteredCatalog = useMemo(() => {
     let result = concat;
 
@@ -64,7 +63,7 @@ function CatalogList({ category, districtFilter }) {
     }
 
     return result;
-  }, [concat, category, districtFilter]);
+  }, [category, districtFilter]);
 
   const itemsPerPage = 10;
 
