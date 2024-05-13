@@ -101,25 +101,18 @@ function filterDistrict(selected) {
 }
 
 export default function PlanTour() {
-  const [selected, setSelectedState] = useState();
-  const [districtList, setDistrictList] = useState();
-  const [criteria, setCriteria] = useState(criterias);
+  const [criteriaList, setCriteriaList] = useState(criterias);
+  const [selectedState, setSelectedState] = useState("kelantan");
 
   useEffect(() => {
-    if (!selected) setSelectedState("kelantan");
-    const data = filterDistrict(selected);
+    const districtDropdown = criterias.find(
+      (data) => data.name === selectedState,
+    );
 
-    setDistrictList(data);
+    console.log("districtDropdown", districtDropdown);
 
-    const updatedCriteria = [...criteria];
-    updatedCriteria.forEach((criteria) => {
-      if (criteria.value === "district") {
-        criteria.options = districtList;
-      }
-    });
-    setCriteria(updatedCriteria);
-  }, [selected, districtList]);
-
+    console.log("selectedState", selectedState);
+  }, [selectedState]);
   return (
     <>
       <div className="h-20 flex flex-col mt-10">
@@ -131,13 +124,13 @@ export default function PlanTour() {
       <div className="flex-1">
         <form action="">
           <div className="mt-6 grid grid-cols-3 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {criteria.map((criteria, index) => (
+            {criteriaList.map((criteria, index) => (
               <CriteriaField
-                setSelectedState={setSelectedState}
                 key={index}
                 name={criteria.name}
                 value={criteria.value}
                 options={criteria.options}
+                selectedDistrict={setSelectedState}
               />
             ))}
           </div>
@@ -153,21 +146,38 @@ export default function PlanTour() {
   );
 }
 
-function CriteriaField({ name, options, setSelectedState }) {
+function CriteriaField({ name, options, selectedDistrict }) {
   return (
     <div className="relative">
       <label className="capitalize inline-flex self-start w-full">{name}</label>
-      <select
-        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mt-2 capitalize"
-        name={name}
-        onChange={(e) => setSelectedState(e.target.value)}
-      >
-        {options.map((option, index) => (
-          <option className="capitalize" key={index} value={option.value}>
-            {option.name}
-          </option>
-        ))}
-      </select>
+      {name.toLowerCase() === "state" ? (
+        <>
+          <select
+            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mt-2 capitalize"
+            name={name}
+            onChange={(e) => {
+              selectedDistrict(e.target.value);
+            }}
+          >
+            {options.map((option, index) => (
+              <option className="capitalize" key={index} value={option.value}>
+                {option.name}
+              </option>
+            ))}
+          </select>
+        </>
+      ) : (
+        <select
+          className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mt-2 capitalize"
+          name={name}
+        >
+          {options.map((option, index) => (
+            <option className="capitalize" key={index} value={option.value}>
+              {option.name}
+            </option>
+          ))}
+        </select>
+      )}
     </div>
   );
 }
