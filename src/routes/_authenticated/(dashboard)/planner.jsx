@@ -62,7 +62,7 @@ const criterias = [
   },
   {
     name: "Rating",
-    value: "criteria1",
+    value: "rating",
     options: [
       { name: "option 1", value: "option1" },
       { name: "option 2", value: "option2" },
@@ -71,7 +71,7 @@ const criterias = [
   },
   {
     name: "Distance",
-    value: "criteria2",
+    value: "distance",
     options: [
       { name: "option 1", value: "option1" },
       { name: "option 2", value: "option2" },
@@ -80,7 +80,7 @@ const criterias = [
   },
   {
     name: "Price Range",
-    value: "criteria3",
+    value: "priceRange",
     options: [
       { name: "option 1", value: "option1" },
       { name: "option 2", value: "option2" },
