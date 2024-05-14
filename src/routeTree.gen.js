@@ -72,17 +72,17 @@ const AuthenticatedcatalogCatalogRoute =
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren([
-  AuthenticatedRoute.addChildren([
+export const routeTree = rootRoute.addChildren({
+  AuthenticatedRoute: AuthenticatedRoute.addChildren({
     AuthenticatedcatalogCatalogRoute,
     AuthenticateddashboardPlannerRoute,
-  ]),
+  }),
   AboutRoute,
   ContactRoute,
   DetailsRoute,
   SignInRoute,
   SignUpRoute,
   homeIndexRoute,
-])
+})
 
 /* prettier-ignore-end */
