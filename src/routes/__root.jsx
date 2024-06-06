@@ -3,19 +3,37 @@ import {
   Link,
   Outlet,
   useNavigate,
+  useLocation
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Toaster } from "react-hot-toast";
 import supabase from "../lib/supabase";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { cn } from "../lib/utils.js";
 
 export const Route = createRootRoute({
-  component: Root,
+  component: Root
 });
+
+const links = [
+  {
+    to: "/",
+    label: "Home"
+  },
+  {
+    to: "/about",
+    label: "About us"
+  },
+  {
+    to: "/contact",
+    label: "Contact"
+  }
+];
 
 function Navbar() {
   const navigate = useNavigate();
   const [session, setSession] = useState(null);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -38,34 +56,33 @@ function Navbar() {
     <nav className="p-5 flex justify-between items-center">
       <Link
         to="/"
-        className="text-2xl font-semibold hover:cursor-pointer flex flex-col items-start"
+        className={
+          cn("text-2xl font-semibold hover:cursor-pointer flex flex-col items-start")
+        }
       >
         <span>Smart Tourist</span>
         <span>Guide Planner</span>
       </Link>
       <ul className="hidden md:flex space-x-8">
-        <Link
-          to="/"
-          className="hover:cursor-pointer hover:border-b border-orange-500"
-        >
-          Home
-        </Link>
-        <Link
-          to="/about"
-          className="hover:cursor-pointer hover:border-b border-orange-500"
-        >
-          About us
-        </Link>
-        <Link
-          to="/contact"
-          className="hover:cursor-pointer hover:border-b border-orange-500"
-        >
-          Contact
-        </Link>
+        {
+          links
+            .map((link, index) => {
+              return (
+                <Fragment key={index}>
+                  <Link
+                    to={link.to}
+                    className={cn("hover:cursor-pointer hover:border-b border-orange-500", pathname === link.to && "border-b border-orange-500")}
+                  >
+                    {link.label}
+                  </Link>
+                </Fragment>
+              );
+            })
+        }
         {session && (
           <Link
             to="/planner"
-            className="hover:cursor-pointer hover:border-b border-orange-500"
+            className={cn("hover:cursor-pointer hover:border-b border-orange-500", pathname === "/planner" && "border-b border-orange-500")}
           >
             Planner
           </Link>
@@ -92,6 +109,7 @@ function Navbar() {
     </nav>
   );
 }
+
 function Root() {
   return (
     <>

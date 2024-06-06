@@ -86,3 +86,55 @@ export const routeTree = rootRoute.addChildren({
 })
 
 /* prettier-ignore-end */
+
+/* ROUTE_MANIFEST_START
+{
+  "routes": {
+    "__root__": {
+      "filePath": "__root.jsx",
+      "children": [
+        "/_authenticated",
+        "/about",
+        "/contact",
+        "/details",
+        "/sign-in",
+        "/sign-up",
+        "/"
+      ]
+    },
+    "/_authenticated": {
+      "filePath": "_authenticated.jsx",
+      "children": [
+        "/_authenticated/catalog",
+        "/_authenticated/planner"
+      ]
+    },
+    "/about": {
+      "filePath": "about.jsx"
+    },
+    "/contact": {
+      "filePath": "contact.jsx"
+    },
+    "/details": {
+      "filePath": "details.jsx"
+    },
+    "/sign-in": {
+      "filePath": "sign-in.jsx"
+    },
+    "/sign-up": {
+      "filePath": "sign-up.jsx"
+    },
+    "/": {
+      "filePath": "(home)/index.jsx"
+    },
+    "/_authenticated/catalog": {
+      "filePath": "_authenticated/(catalog)/catalog.jsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/planner": {
+      "filePath": "_authenticated/(dashboard)/planner.jsx",
+      "parent": "/_authenticated"
+    }
+  }
+}
+ROUTE_MANIFEST_END */
