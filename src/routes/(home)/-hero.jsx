@@ -8,16 +8,14 @@ const Hero = () => {
   const handleSearch = async () => {
     await navigate({
       to: "/catalog",
-      search: { place: searchQuery }
+      search: { place: searchQuery },
     });
   };
 
   return (
     <div className="py-10">
-      <div
-        className="w-full h-[500px] rounded-md bg-[url('https://images.pexels.com/photos/450441/pexels-photo-450441.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-cover">
-        <div
-          className="w-full md:4/5 lg:w-1/2 2xl:w-1/3 bg-gradient-to-r from-gray-600 h-full flex flex-col justify-center space-y-5 p-5 text-white rounded-md">
+      <div className="w-full h-[500px] rounded-md bg-[url('https://images.pexels.com/photos/450441/pexels-photo-450441.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-cover">
+        <div className="w-full md:4/5 lg:w-1/2 2xl:w-1/3 bg-gradient-to-r from-gray-600 h-full flex flex-col justify-center space-y-5 p-5 text-white rounded-md">
           <h1 className="text-4xl md:text-5xl font-bold">
             Explore the best holiday location!
           </h1>
@@ -37,7 +35,7 @@ const Hero = () => {
               onChange={(event) => setSearchQuery(event.target.value)}
             />
             <Link
-              to="/catalog"
+              to="/catalog/search"
               search={{ place: searchQuery }}
               type="button"
               className="px-5 py-2 bg-orange-500 font-bold rounded-r-md"

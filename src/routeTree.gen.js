@@ -19,6 +19,7 @@ import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as homeIndexImport } from './routes/(home)/index'
 import { Route as AuthenticateddashboardPlannerImport } from './routes/_authenticated/(dashboard)/planner'
 import { Route as AuthenticatedcatalogCatalogIndexImport } from './routes/_authenticated/(catalog)/catalog.index'
+import { Route as AuthenticatedcatalogCatalogSearchImport } from './routes/_authenticated/(catalog)/catalog.search'
 import { Route as AuthenticatedcatalogCatalogCatalogIdImport } from './routes/_authenticated/(catalog)/catalog.$catalogId'
 
 // Create/Update Routes
@@ -65,6 +66,12 @@ const AuthenticatedcatalogCatalogIndexRoute =
     getParentRoute: () => AuthenticatedRoute,
   })
 
+const AuthenticatedcatalogCatalogSearchRoute =
+  AuthenticatedcatalogCatalogSearchImport.update({
+    path: '/catalog/search',
+    getParentRoute: () => AuthenticatedRoute,
+  })
+
 const AuthenticatedcatalogCatalogCatalogIdRoute =
   AuthenticatedcatalogCatalogCatalogIdImport.update({
     path: '/catalog/$catalogId',
@@ -77,6 +84,7 @@ export const routeTree = rootRoute.addChildren({
   AuthenticatedRoute: AuthenticatedRoute.addChildren({
     AuthenticateddashboardPlannerRoute,
     AuthenticatedcatalogCatalogCatalogIdRoute,
+    AuthenticatedcatalogCatalogSearchRoute,
     AuthenticatedcatalogCatalogIndexRoute,
   }),
   AboutRoute,
@@ -107,6 +115,7 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_authenticated/planner",
         "/_authenticated/catalog/$catalogId",
+        "/_authenticated/catalog/search",
         "/_authenticated/catalog/"
       ]
     },
@@ -131,6 +140,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_authenticated/catalog/$catalogId": {
       "filePath": "_authenticated/(catalog)/catalog.$catalogId.jsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/catalog/search": {
+      "filePath": "_authenticated/(catalog)/catalog.search.jsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/catalog/": {

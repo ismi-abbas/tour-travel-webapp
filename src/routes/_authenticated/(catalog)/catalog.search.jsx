@@ -1,34 +1,65 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import supabase from "../../../lib/supabase";
 import { AiFillStar } from "react-icons/ai";
 import { IoLocationOutline } from "react-icons/io5";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import supabase from "../../../lib/supabase.js";
-import { useEffect } from "react";
+import { useState } from "react";
 
-export const catalogQueryOptions = () =>
+export const Route = createFileRoute(
+  "/_authenticated/(catalog)/catalog/search",
+)({
+  component: SearchResult,
+});
+
+export const catalogSearchQueryOptions = (place) =>
   queryOptions({
-    queryKey: ["get-all-places"],
+    queryKey: ["search-place", place],
     queryFn: async () => {
-      const { data, error } = await supabase.from("places").select();
+      const { data, error } = await supabase
+        .from("places")
+        .select("*")
+        .ilike("name", `%${place}%`);
 
       if (error) return error;
-
+      console.log(data);
       return data;
     },
     staleTime: 1000 * 60 * 5,
   });
 
-export const Route = createFileRoute("/_authenticated/(catalog)/catalog/")({
-  component: CatalogPage,
-});
+function SearchResult() {
+  const { place } = Route.useSearch();
+  const navigate = useNavigate();
+  const { data, isError } = useSuspenseQuery(catalogSearchQueryOptions(place));
 
-function CatalogPage() {
-  const { data, isError } = useSuspenseQuery(catalogQueryOptions());
+  const [searchQuery, setSearchQuery] = useState(place || "");
+
+  const handleSubmit = () => {
+    navigate({
+      to: "/catalog/search",
+      search: { place: searchQuery },
+    });
+  };
 
   return (
     <div className="container">
-      <div className="flex flex-col justify-center items-center h-full">
+      <form className="flex items-center justify-center gap-4">
+        <input
+          className="px-5 py-2 bg-white rounded-md text-gray-500 w-1/2 border"
+          type="text"
+          placeholder="Find places"
+          value={searchQuery}
+          onChange={(event) => setSearchQuery(event.target.value)}
+        />
+        <button
+          type="button"
+          onClick={handleSubmit}
+          className="px-5 py-2 bg-orange-500 font-bold rounded-md text-white"
+        >
+          Search
+        </button>
+      </form>
+      <div className="flex flex-col justify-center items-center h-full mt-6">
         {isError ? (
           <div className="flex flex-1 justify-center">
             <h2 className="text-xl">Server Error</h2>

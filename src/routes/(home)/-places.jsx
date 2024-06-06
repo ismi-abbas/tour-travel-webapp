@@ -1,7 +1,7 @@
 import { AiFillStar } from "react-icons/ai";
 import { IoLocationOutline } from "react-icons/io5";
 import { Link } from "@tanstack/react-router";
-import supabase from "../../../lib/supabase.js";
+import supabase from "../../lib/supabase.js";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetPlaces = () => {
