@@ -100,6 +100,7 @@ export function SignIn() {
               </button>
 
               <button
+                type="button"
                 onClick={() =>
                   supabase.auth.signInWithOAuth({ provider: "google" })
                 }

@@ -3,7 +3,7 @@ import {
   Link,
   Outlet,
   useNavigate,
-  useLocation
+  useLocation,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Toaster } from "react-hot-toast";
@@ -12,22 +12,22 @@ import { Fragment, useEffect, useState } from "react";
 import { cn } from "../lib/utils.js";
 
 export const Route = createRootRoute({
-  component: Root
+  component: Root,
 });
 
 const links = [
   {
     to: "/",
-    label: "Home"
+    label: "Home",
   },
   {
     to: "/about",
-    label: "About us"
+    label: "About us",
   },
   {
     to: "/contact",
-    label: "Contact"
-  }
+    label: "Contact",
+  },
 ];
 
 function Navbar() {
@@ -56,33 +56,36 @@ function Navbar() {
     <nav className="p-5 flex justify-between items-center">
       <Link
         to="/"
-        className={
-          cn("text-2xl font-semibold hover:cursor-pointer flex flex-col items-start")
-        }
+        className={cn(
+          "text-2xl font-semibold hover:cursor-pointer flex flex-col items-start",
+        )}
       >
         <span>Smart Tourist</span>
         <span>Guide Planner</span>
       </Link>
       <ul className="hidden md:flex space-x-8">
-        {
-          links
-            .map((link, index) => {
-              return (
-                <Fragment key={index}>
-                  <Link
-                    to={link.to}
-                    className={cn("hover:cursor-pointer hover:border-b border-orange-500", pathname === link.to && "border-b border-orange-500")}
-                  >
-                    {link.label}
-                  </Link>
-                </Fragment>
-              );
-            })
-        }
+        {links.map((link, index) => {
+          return (
+            <Fragment key={index}>
+              <Link
+                to={link.to}
+                className={cn(
+                  "hover:cursor-pointer hover:border-b border-orange-500",
+                  pathname === link.to && "border-b border-orange-500",
+                )}
+              >
+                {link.label}
+              </Link>
+            </Fragment>
+          );
+        })}
         {session && (
           <Link
             to="/planner"
-            className={cn("hover:cursor-pointer hover:border-b border-orange-500", pathname === "/planner" && "border-b border-orange-500")}
+            className={cn(
+              "hover:cursor-pointer hover:border-b border-orange-500",
+              pathname === "/planner" && "border-b border-orange-500",
+            )}
           >
             Planner
           </Link>

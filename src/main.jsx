@@ -19,6 +19,9 @@ import { NotFound } from "./pages/NotFound";
 const router = createRouter({
   routeTree,
   defaultNotFoundComponent: NotFound,
+  context: {
+    queryClient,
+  },
 });
 
 ReactDOM.createRoot(document.getElementById("root")).render(

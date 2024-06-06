@@ -4,8 +4,8 @@ import { Link } from "@tanstack/react-router";
 import supabase from "../../../lib/supabase.js";
 import { useQuery } from "@tanstack/react-query";
 
-const Places = () => {
-  const { data, isError } = useQuery({
+export const useGetPlaces = () => {
+  const { data, isError, isLoading } = useQuery({
     queryKey: ["get-places"],
     queryFn: fetchPlaces,
     staleTime: 1000 * 60 * 5,
@@ -15,6 +15,7 @@ const Places = () => {
     const { data, error } = await supabase.from("places").select();
 
     if (error) return error;
+
     const pahang = data
       .filter((data) => data.state.toLowerCase() === "pahang")
       .slice(0, 8);
@@ -32,12 +33,22 @@ const Places = () => {
     };
   }
 
+  return {
+    data,
+    isError,
+    isLoading,
+  };
+};
+
+const Places = () => {
+  const { data, isError, isLoading } = useGetPlaces();
+
   return (
     <div className="py-10">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Popular Places</h1>
+        <h1 className="text-3xl font-semibold">Popular Places</h1>
         <Link
-          to="/all-attractions"
+          to="/catalog"
           className="px-5 py-2 rounded border border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white"
         >
           View All
@@ -51,14 +62,14 @@ const Places = () => {
         data &&
         Object.keys(data).map((state) => (
           <div key={state} className="mb-10">
-            <h2 className="text-2xl font-bold capitalize mb-4">{state}</h2>
+            <h2 className="text-2xl font-semibold capitalize mb-4">{state}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {data[state].length > 0 ? (
                 data[state].map((place) => (
                   <Link
                     to={`/details/attractions/${place.id}`}
                     key={place.id}
-                    className="place w-full bg-white border rounded-lg overflow-hidden hover:cursor-pointer hover:ring-2 hover:ring-indigo-600"
+                    className="place w-full bg-white border rounded-lg overflow-hidden hover:cursor-pointer hover:ring-1 hover:ring-indigo-600"
                   >
                     <div className="h-[150px] md:h-[230px] overflow-hidden">
                       <img

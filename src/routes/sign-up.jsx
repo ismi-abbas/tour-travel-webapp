@@ -40,7 +40,7 @@ function SignUpForm() {
       return data.user;
     }
 
-    navigate({
+    await navigate({
       to: "/dashboard"
     });
   };

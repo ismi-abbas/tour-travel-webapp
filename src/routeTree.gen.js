@@ -13,13 +13,13 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as SignUpImport } from './routes/sign-up'
 import { Route as SignInImport } from './routes/sign-in'
-import { Route as DetailsImport } from './routes/details'
 import { Route as ContactImport } from './routes/contact'
 import { Route as AboutImport } from './routes/about'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as homeIndexImport } from './routes/(home)/index'
 import { Route as AuthenticateddashboardPlannerImport } from './routes/_authenticated/(dashboard)/planner'
-import { Route as AuthenticatedcatalogCatalogImport } from './routes/_authenticated/(catalog)/catalog'
+import { Route as AuthenticatedcatalogCatalogIndexImport } from './routes/_authenticated/(catalog)/catalog.index'
+import { Route as AuthenticatedcatalogCatalogCatalogIdImport } from './routes/_authenticated/(catalog)/catalog.$catalogId'
 
 // Create/Update Routes
 
@@ -30,11 +30,6 @@ const SignUpRoute = SignUpImport.update({
 
 const SignInRoute = SignInImport.update({
   path: '/sign-in',
-  getParentRoute: () => rootRoute,
-})
-
-const DetailsRoute = DetailsImport.update({
-  path: '/details',
   getParentRoute: () => rootRoute,
 })
 
@@ -64,9 +59,15 @@ const AuthenticateddashboardPlannerRoute =
     getParentRoute: () => AuthenticatedRoute,
   })
 
-const AuthenticatedcatalogCatalogRoute =
-  AuthenticatedcatalogCatalogImport.update({
-    path: '/catalog',
+const AuthenticatedcatalogCatalogIndexRoute =
+  AuthenticatedcatalogCatalogIndexImport.update({
+    path: '/catalog/',
+    getParentRoute: () => AuthenticatedRoute,
+  })
+
+const AuthenticatedcatalogCatalogCatalogIdRoute =
+  AuthenticatedcatalogCatalogCatalogIdImport.update({
+    path: '/catalog/$catalogId',
     getParentRoute: () => AuthenticatedRoute,
   })
 
@@ -74,12 +75,12 @@ const AuthenticatedcatalogCatalogRoute =
 
 export const routeTree = rootRoute.addChildren({
   AuthenticatedRoute: AuthenticatedRoute.addChildren({
-    AuthenticatedcatalogCatalogRoute,
     AuthenticateddashboardPlannerRoute,
+    AuthenticatedcatalogCatalogCatalogIdRoute,
+    AuthenticatedcatalogCatalogIndexRoute,
   }),
   AboutRoute,
   ContactRoute,
-  DetailsRoute,
   SignInRoute,
   SignUpRoute,
   homeIndexRoute,
@@ -96,7 +97,6 @@ export const routeTree = rootRoute.addChildren({
         "/_authenticated",
         "/about",
         "/contact",
-        "/details",
         "/sign-in",
         "/sign-up",
         "/"
@@ -105,8 +105,9 @@ export const routeTree = rootRoute.addChildren({
     "/_authenticated": {
       "filePath": "_authenticated.jsx",
       "children": [
-        "/_authenticated/catalog",
-        "/_authenticated/planner"
+        "/_authenticated/planner",
+        "/_authenticated/catalog/$catalogId",
+        "/_authenticated/catalog/"
       ]
     },
     "/about": {
@@ -114,9 +115,6 @@ export const routeTree = rootRoute.addChildren({
     },
     "/contact": {
       "filePath": "contact.jsx"
-    },
-    "/details": {
-      "filePath": "details.jsx"
     },
     "/sign-in": {
       "filePath": "sign-in.jsx"
@@ -127,12 +125,16 @@ export const routeTree = rootRoute.addChildren({
     "/": {
       "filePath": "(home)/index.jsx"
     },
-    "/_authenticated/catalog": {
-      "filePath": "_authenticated/(catalog)/catalog.jsx",
-      "parent": "/_authenticated"
-    },
     "/_authenticated/planner": {
       "filePath": "_authenticated/(dashboard)/planner.jsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/catalog/$catalogId": {
+      "filePath": "_authenticated/(catalog)/catalog.$catalogId.jsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/catalog/": {
+      "filePath": "_authenticated/(catalog)/catalog.index.jsx",
       "parent": "/_authenticated"
     }
   }
