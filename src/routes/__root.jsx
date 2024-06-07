@@ -10,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 import supabase from "../lib/supabase";
 import { Fragment, useEffect, useState } from "react";
 import { cn } from "../lib/utils.js";
+import { BackgroundDots } from "../components/BackgroundDots";
 
 export const Route = createRootRoute({
   component: Root,
@@ -19,14 +20,22 @@ const links = [
   {
     to: "/",
     label: "Home",
+    isProtected: false,
   },
   {
-    to: "/about",
-    label: "About us",
+    to: "/planner",
+    label: "Planner",
+    isProtected: true,
   },
   {
     to: "/contact",
     label: "Contact",
+    isProtected: false,
+  },
+  {
+    to: "/about",
+    label: "About",
+    isProtected: false,
   },
 ];
 
@@ -53,7 +62,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="p-5 flex justify-between items-center">
+    <nav className="flex justify-between items-center">
       <Link
         to="/"
         className={cn(
@@ -64,46 +73,59 @@ function Navbar() {
         <span>Guide Planner</span>
       </Link>
       <ul className="hidden md:flex space-x-8">
-        {links.map((link, index) => {
-          return (
-            <Fragment key={index}>
-              <Link
-                to={link.to}
-                className={cn(
-                  "hover:cursor-pointer hover:border-b border-orange-500",
-                  pathname === link.to && "border-b border-orange-500",
-                )}
-              >
-                {link.label}
-              </Link>
-            </Fragment>
-          );
-        })}
-        {session && (
-          <Link
-            to="/planner"
-            className={cn(
-              "hover:cursor-pointer hover:border-b border-orange-500",
-              pathname === "/planner" && "border-b border-orange-500",
-            )}
-          >
-            Planner
-          </Link>
-        )}
+        {session
+          ? links.map((link, index) => {
+              return (
+                <Fragment key={index}>
+                  <Link
+                    to={link.to}
+                    className={cn(
+                      "hover:cursor-pointer hover:border-b border-orange-500",
+                      pathname === link.to && "border-b border-orange-500",
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                </Fragment>
+              );
+            })
+          : links
+              .filter((link) => !link.isProtected)
+              .map((link, index) => {
+                return (
+                  <Fragment key={index}>
+                    <Link
+                      to={link.to}
+                      className={cn(
+                        "hover:cursor-pointer hover:border-b border-orange-500",
+                        pathname === link.to && "border-b border-orange-500",
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                  </Fragment>
+                );
+              })}
       </ul>
       {!session ? (
-        <div className="flex items-center space-x-5">
-          <button type="button" className="px-5 py-2 rounded bg-gray-100">
+        <div className="flex items-center space-x-2">
+          <button
+            type="button"
+            className="px-5 py-2 rounded bg-gray-100 hover:bg-orange-500 hover:text-white"
+          >
             <Link to="/sign-in">Sign In</Link>
           </button>
-          <button type="button" className="px-5 py-2 rounded bg-gray-100">
+          <button
+            type="button"
+            className="px-5 py-2 rounded bg-gray-100 hover:bg-orange-500 hover:text-white"
+          >
             <Link to="/sign-up">Sign up</Link>
           </button>
         </div>
       ) : (
         <button
           type="button"
-          className="px-5 py-2 rounded bg-gray-100"
+          className="px-5 py-2 rounded bg-gray-100 hover:bg-orange-500 hover:text-white"
           onClick={logout}
         >
           Logout
@@ -118,6 +140,7 @@ function Root() {
     <>
       <Navbar />
       <div className="container mx-auto">
+        <BackgroundDots />
         <Outlet />
         <Toaster />
       </div>

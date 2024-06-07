@@ -151,7 +151,7 @@ const SearchResult = () => {
               type="button"
               onClick={handlePrevPage}
               disabled={currentPage === 1}
-              className="mr-2 px-4 py-2 bg-indigo-500 text-white rounded-md"
+              className="mr-2 px-4 py-2 bg-orange-500 text-white rounded-md"
             >
               Previous Page
             </button>
@@ -159,7 +159,7 @@ const SearchResult = () => {
               type="button"
               onClick={handleNextPage}
               disabled={indexOfLastItem >= searchResults.length}
-              className="px-4 py-2 bg-indigo-500 text-white rounded-md"
+              className="px-4 py-2 bg-orange-500 text-white rounded-md"
             >
               Next Page
             </button>

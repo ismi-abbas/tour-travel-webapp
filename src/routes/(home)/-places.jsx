@@ -8,7 +8,8 @@ export const useGetPlaces = () => {
   const { data, isError, isLoading } = useQuery({
     queryKey: ["get-places"],
     queryFn: fetchPlaces,
-    staleTime: 1000 * 60 * 5,
+    gcTime: Infinity,
+    staleTime: Infinity,
   });
 
   async function fetchPlaces() {
@@ -49,7 +50,7 @@ const Places = () => {
         <h1 className="text-3xl font-semibold">Popular Places</h1>
         <Link
           to="/catalog"
-          className="px-5 py-2 rounded border border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white"
+          className="px-5 py-2 rounded border bg-white border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white"
         >
           View All
         </Link>
@@ -67,9 +68,9 @@ const Places = () => {
               {data[state].length > 0 ? (
                 data[state].map((place) => (
                   <Link
-                    to={`/details/attractions/${place.id}`}
+                    to={`/catalog/${place.id}`}
                     key={place.id}
-                    className="place w-full bg-white border rounded-lg overflow-hidden hover:cursor-pointer hover:ring-1 hover:ring-indigo-600"
+                    className="place w-full bg-white border rounded-lg overflow-hidden hover:cursor-pointer hover:ring-1 hover:ring-orange-600"
                   >
                     <div className="h-[150px] md:h-[230px] overflow-hidden">
                       <img

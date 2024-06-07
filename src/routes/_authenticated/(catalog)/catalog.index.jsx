@@ -41,7 +41,7 @@ function CatalogPage() {
                   to="/catalog/$catalogId"
                   params={{ catalogId: place.id }}
                   key={place.id}
-                  className="place w-full bg-white border rounded-lg overflow-hidden hover:cursor-pointer hover:ring-2 hover:ring-indigo-600"
+                  className="place w-full bg-white border rounded-lg overflow-hidden hover:cursor-pointer hover:ring-2 hover:ring-orange-600"
                 >
                   <div className="h-[150px] md:h-[230px] overflow-hidden">
                     <img

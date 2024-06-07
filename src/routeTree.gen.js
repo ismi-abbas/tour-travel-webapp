@@ -17,8 +17,9 @@ import { Route as ContactImport } from './routes/contact'
 import { Route as AboutImport } from './routes/about'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as homeIndexImport } from './routes/(home)/index'
-import { Route as AuthenticateddashboardPlannerImport } from './routes/_authenticated/(dashboard)/planner'
+import { Route as AuthenticateddashboardPlannerIndexImport } from './routes/_authenticated/(dashboard)/planner.index'
 import { Route as AuthenticatedcatalogCatalogIndexImport } from './routes/_authenticated/(catalog)/catalog.index'
+import { Route as AuthenticateddashboardPlannerResultImport } from './routes/_authenticated/(dashboard)/planner.result'
 import { Route as AuthenticatedcatalogCatalogSearchImport } from './routes/_authenticated/(catalog)/catalog.search'
 import { Route as AuthenticatedcatalogCatalogCatalogIdImport } from './routes/_authenticated/(catalog)/catalog.$catalogId'
 
@@ -54,15 +55,21 @@ const homeIndexRoute = homeIndexImport.update({
   getParentRoute: () => rootRoute,
 })
 
-const AuthenticateddashboardPlannerRoute =
-  AuthenticateddashboardPlannerImport.update({
-    path: '/planner',
+const AuthenticateddashboardPlannerIndexRoute =
+  AuthenticateddashboardPlannerIndexImport.update({
+    path: '/planner/',
     getParentRoute: () => AuthenticatedRoute,
   })
 
 const AuthenticatedcatalogCatalogIndexRoute =
   AuthenticatedcatalogCatalogIndexImport.update({
     path: '/catalog/',
+    getParentRoute: () => AuthenticatedRoute,
+  })
+
+const AuthenticateddashboardPlannerResultRoute =
+  AuthenticateddashboardPlannerResultImport.update({
+    path: '/planner/result',
     getParentRoute: () => AuthenticatedRoute,
   })
 
@@ -82,10 +89,11 @@ const AuthenticatedcatalogCatalogCatalogIdRoute =
 
 export const routeTree = rootRoute.addChildren({
   AuthenticatedRoute: AuthenticatedRoute.addChildren({
-    AuthenticateddashboardPlannerRoute,
     AuthenticatedcatalogCatalogCatalogIdRoute,
     AuthenticatedcatalogCatalogSearchRoute,
+    AuthenticateddashboardPlannerResultRoute,
     AuthenticatedcatalogCatalogIndexRoute,
+    AuthenticateddashboardPlannerIndexRoute,
   }),
   AboutRoute,
   ContactRoute,
@@ -113,10 +121,11 @@ export const routeTree = rootRoute.addChildren({
     "/_authenticated": {
       "filePath": "_authenticated.jsx",
       "children": [
-        "/_authenticated/planner",
         "/_authenticated/catalog/$catalogId",
         "/_authenticated/catalog/search",
-        "/_authenticated/catalog/"
+        "/_authenticated/planner/result",
+        "/_authenticated/catalog/",
+        "/_authenticated/planner/"
       ]
     },
     "/about": {
@@ -134,10 +143,6 @@ export const routeTree = rootRoute.addChildren({
     "/": {
       "filePath": "(home)/index.jsx"
     },
-    "/_authenticated/planner": {
-      "filePath": "_authenticated/(dashboard)/planner.jsx",
-      "parent": "/_authenticated"
-    },
     "/_authenticated/catalog/$catalogId": {
       "filePath": "_authenticated/(catalog)/catalog.$catalogId.jsx",
       "parent": "/_authenticated"
@@ -146,8 +151,16 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_authenticated/(catalog)/catalog.search.jsx",
       "parent": "/_authenticated"
     },
+    "/_authenticated/planner/result": {
+      "filePath": "_authenticated/(dashboard)/planner.result.jsx",
+      "parent": "/_authenticated"
+    },
     "/_authenticated/catalog/": {
       "filePath": "_authenticated/(catalog)/catalog.index.jsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/planner/": {
+      "filePath": "_authenticated/(dashboard)/planner.index.jsx",
       "parent": "/_authenticated"
     }
   }
