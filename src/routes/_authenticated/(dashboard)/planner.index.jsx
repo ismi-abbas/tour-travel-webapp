@@ -1,11 +1,11 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
-export const Route = createFileRoute("/ authenticated/(dashboard)/planner/")({
+export const Route = createFileRoute("/_authenticated/(dashboard)/planner/")({
   component: PlanTour,
 });
 
-const states = [
+export const states = [
   {
     name: "Terengganu",
     value: "terengganu",

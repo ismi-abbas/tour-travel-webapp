@@ -5,7 +5,7 @@ import { drizzle } from "drizzle-orm/postgres-js";
 console.log("migrating...........");
 const migrationClient = postgres(process.env.CONNECTION_STRING, { max: 1 });
 await migrate(drizzle(migrationClient), {
-  migrationsFolder: "./drizzle"
+  migrationsFolder: "./drizzle",
 });
 
 console.log("Migration complete");

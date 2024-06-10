@@ -1,13 +1,11 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import supabase from "../../../lib/supabase";
+import supabase from "../../lib/supabase";
 import { AiFillStar } from "react-icons/ai";
 import { IoLocationOutline } from "react-icons/io5";
 import { useState } from "react";
 
-export const Route = createFileRoute(
-  "/_authenticated/(catalog)/catalog/search",
-)({
+export const Route = createFileRoute("/(catalog)/catalog/search")({
   component: SearchResult,
 });
 

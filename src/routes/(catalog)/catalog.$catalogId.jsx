@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import supabase from "../../../lib/supabase";
+import supabase from "../../lib/supabase";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
 const getPlaceDetails = async (catalogId) => {
@@ -19,9 +19,7 @@ export const placeDetailsQueryOptions = (catalogId) =>
     queryFn: async () => await getPlaceDetails(catalogId),
   });
 
-export const Route = createFileRoute(
-  "/_authenticated/(catalog)/catalog/$catalogId",
-)({
+export const Route = createFileRoute("/(catalog)/catalog/$catalogId")({
   component: DetailsComponent,
 });
 

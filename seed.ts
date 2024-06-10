@@ -10,7 +10,8 @@ const db = drizzle(client);
 const allUsers = await db.select().from(placeSchema);
 
 for (let place of places) {
-  let count = place.priceLevel !== null ? place.priceLevel.split("$").length - 1 : 0;
+  let count =
+    place.priceLevel !== null ? place.priceLevel.split("$").length - 1 : 0;
   let subcategory = JSON.stringify(place.subcategories);
   console.log(subcategory);
   await db.insert(placeSchema).values({
@@ -34,7 +35,7 @@ for (let place of places) {
     numberOfReviews: place.numberOfReviews,
     priceRange: place.priceRange,
     priceLevel: count,
-    hotelClass: place.hotelClass
+    hotelClass: place.hotelClass,
   });
 }
 

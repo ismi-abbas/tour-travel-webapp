@@ -22,5 +22,5 @@ export const placeSchema = pgTable("places", {
   numberOfReviews: text("number_of_reviews"),
   priceRange: text("price_range"),
   priceLevel: integer("price_level"),
-  hotelClass: text("hotel_class")
+  hotelClass: text("hotel_class"),
 });
