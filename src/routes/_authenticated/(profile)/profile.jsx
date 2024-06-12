@@ -12,7 +12,7 @@ function Profile() {
     queryFn: getUser,
   });
 
-  const { picture, full_name, email } = data?.user || {};
+  const { full_name, email, avatar_url } = data?.user || {};
 
   return (
     <div className="flex flex-1 justify-center w-full">
@@ -23,7 +23,7 @@ function Profile() {
           {data && (
             <div className="border rounded-md bg-white p-14 w-full justify-center flex flex-col items-center gap-4">
               <img
-                src={picture}
+                src={avatar_url}
                 alt="profile picture"
                 className="object-cover rounded-full w-36"
               />

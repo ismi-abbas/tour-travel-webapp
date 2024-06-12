@@ -4,7 +4,7 @@ import { placeSchema } from "./schema";
 // @ts-ignore
 import places from "./data.json";
 
-const connectionString = process.env.CONNECTION_STRING;
+const connectionString = process.env.CONNECTION_STRING as string;
 const client = postgres(connectionString);
 const db = drizzle(client);
 const allUsers = await db.select().from(placeSchema);

@@ -107,7 +107,7 @@ function Navbar() {
   }
 
   return (
-    <nav className="flex justify-between items-center">
+    <nav className="flex justify-between items-center mt-4">
       <Link
         to="/"
         className={cn(
