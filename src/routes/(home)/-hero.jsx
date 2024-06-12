@@ -26,22 +26,26 @@ const Hero = () => {
             adventure, culture, and relaxation, curated to suit every
             traveler&apos;s desires.
           </p>
-          <form className="flex items-center" onSubmit={handleSearch}>
+          <form
+            className="flex items-center justify-between border"
+            onSubmit={handleSearch}
+          >
             <input
-              className="px-5 py-2 bg-white rounded-md-1 text-gray-500 outline-0"
+              className="px-5 py-2 bg-white text-gray-500 outline-0 w-full"
               type="text"
               placeholder="search place"
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
             />
-            <Link
-              to="/catalog/search"
-              search={{ place: searchQuery }}
-              type="button"
-              className="px-5 py-2 bg-orange-500 font-bold rounded-r-md"
-            >
-              Search
-            </Link>
+            <span className="bg-orange-500 font-bold px-5 py-2 outline-0">
+              <Link
+                to="/catalog/search"
+                search={{ place: searchQuery }}
+                type="button"
+              >
+                Search
+              </Link>
+            </span>
           </form>
         </div>
       </div>

@@ -22,30 +22,42 @@ const links = [
     label: "Home",
     isProtected: false,
     showForAdmin: true,
+    showForUser: true,
   },
   {
     to: "/catalog",
     label: "Catalog",
     isProtected: false,
     showForAdmin: true,
+    showForUser: true,
+  },
+  {
+    to: "/admin/dashboard",
+    label: "Dashboard",
+    isProtected: true,
+    showForAdmin: true,
+    showForUser: false,
   },
   {
     to: "/planner",
     label: "Planner",
     isProtected: true,
     showForAdmin: false,
+    showForUser: true,
   },
   {
     to: "/contact",
     label: "Contact",
     isProtected: false,
     showForAdmin: false,
+    showForUser: true,
   },
   {
     to: "/about",
     label: "About",
     isProtected: false,
     showForAdmin: false,
+    showForUser: true,
   },
 ];
 
@@ -69,6 +81,7 @@ function Navbar() {
         .eq("user_id", session.user.id)
         .single()
         .then(({ data: { role } }) => {
+          console.log(role);
           setRole(role);
         });
     });
@@ -85,10 +98,13 @@ function Navbar() {
     navigate({ to: "/sign-in" });
   };
 
-  const protectedNavbar = links.filter((link) => link.isProtected);
-  const adminNavbar = links.filter((link) => link.showForAdmin);
+  let navbar = links.filter((link) => !link.isProtected);
 
-  const navbar = role === "admin" ? adminNavbar : protectedNavbar;
+  if (session && role === "admin") {
+    navbar = links.filter((link) => link.showForAdmin == true);
+  } else if (session && role === "user") {
+    navbar = links.filter((link) => link.showForUser);
+  }
 
   return (
     <nav className="flex justify-between items-center">
@@ -102,22 +118,21 @@ function Navbar() {
         <span>Guide Planner</span>
       </Link>
       <ul className="hidden md:flex space-x-8">
-        {session &&
-          navbar.map((link, index) => {
-            return (
-              <Fragment key={index}>
-                <Link
-                  to={link.to}
-                  className={cn(
-                    "hover:cursor-pointer hover:border-b border-orange-500",
-                    pathname === link.to && "border-b border-orange-500",
-                  )}
-                >
-                  {link.label}
-                </Link>
-              </Fragment>
-            );
-          })}
+        {navbar.map((link, index) => {
+          return (
+            <Fragment key={index}>
+              <Link
+                to={link.to}
+                className={cn(
+                  "hover:cursor-pointer hover:border-b border-orange-500",
+                  pathname === link.to && "border-b border-orange-500",
+                )}
+              >
+                {link.label}
+              </Link>
+            </Fragment>
+          );
+        })}
       </ul>
       {!session ? (
         <div className="flex items-center space-x-2">

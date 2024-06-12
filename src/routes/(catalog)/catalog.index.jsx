@@ -5,21 +5,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import supabase from "../../lib/supabase.js";
 import { states } from "../_authenticated/(dashboard)/planner.index.jsx";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "../../components/DropdownMenu.jsx";
-import Sample from "./-sample.jsx";
+import LocationDropdown from "../../components/locationDropdown.jsx";
 import { cn } from "../../lib/utils.js";
 import { useState } from "react";
 
@@ -62,8 +48,6 @@ const categories = [
     value: "things_to_do",
   },
 ];
-
-const district = [];
 
 function StatesDropdown() {
   const [openDropdowns, setOpenDropdowns] = useState(
@@ -114,12 +98,15 @@ function CatalogPage() {
 
   return (
     <div className="container">
+      <div className="flex justify-end">
+        <LocationDropdown locationList={states} />
+      </div>
       <div className="flex w-full justify-between px-20 py-2 mt-4">
         {categories.map(({ name, value }, index) => (
           <button
             onClick={() => console.log(value)}
             key={index}
-            className="bg-white px-4 py-2 rounded-md outline outline-orange-500 hover:bg-orange-500 hover:text-white"
+            className="bg-white px-4 py-2 rounded-md outline outline-1 outline-orange-500 hover:bg-orange-500 hover:text-white"
           >
             {name}
           </button>
