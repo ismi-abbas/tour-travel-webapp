@@ -11,6 +11,9 @@ import supabase from "../lib/supabase";
 import { Fragment, useEffect, useState } from "react";
 import { cn } from "../lib/utils.js";
 import { BackgroundDots } from "../components/BackgroundDots";
+import kelantanImage from "../assets/kelantan.png";
+import pahangImage from "../assets/pahang.png";
+import terengganuImage from "../assets/terengganu.png";
 
 export const Route = createRootRoute({
   component: Root,
@@ -107,15 +110,17 @@ function Navbar() {
   }
 
   return (
-    <nav className="flex justify-between items-center mt-4">
-      <Link
-        to="/"
-        className={cn(
-          "text-2xl font-semibold hover:cursor-pointer flex flex-col items-start",
-        )}
-      >
-        <span>Smart Tourist</span>
-        <span>Guide Planner</span>
+    <nav className="flex justify-between items-center bg-orange-400 px-20 py-2">
+      <Link to="/" className={cn("hover:cursor-pointer flex items-center")}>
+        <div className="flex flex-col text-2xl font-semibold   items-start text-white">
+          <span>Smart Tourist</span>
+          <span>Guide Planner</span>
+        </div>
+        <disv className="ml-4 flex flex-col justify-between h-full">
+          <img src={pahangImage} alt="" width={30} />
+          <img src={kelantanImage} alt="" width={30} />
+          <img src={terengganuImage} alt="" width={30} />
+        </disv>
       </Link>
       <ul className="hidden md:flex space-x-8">
         {navbar.map((link, index) => {
@@ -124,8 +129,8 @@ function Navbar() {
               <Link
                 to={link.to}
                 className={cn(
-                  "hover:cursor-pointer hover:border-b border-orange-500",
-                  pathname === link.to && "border-b border-orange-500",
+                  "hover:cursor-pointer hover:border-b border-white text-white text-xl",
+                  pathname === link.to && "border-b border-white",
                 )}
               >
                 {link.label}

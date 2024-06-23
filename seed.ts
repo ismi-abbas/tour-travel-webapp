@@ -4,16 +4,15 @@ import { placeSchema } from "./schema";
 // @ts-ignore
 import places from "./data.json";
 
-const connectionString = process.env.CONNECTION_STRING as string;
+const connectionString =
+  "postgres://postgres.ntnunlxrptzcwflsjleh:Qy88p27RlAycbURU@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres";
+console.log(connectionString);
 const client = postgres(connectionString);
 const db = drizzle(client);
-const allUsers = await db.select().from(placeSchema);
 
 for (let place of places) {
   let count =
     place.priceLevel !== null ? place.priceLevel.split("$").length - 1 : 0;
-  let subcategory = JSON.stringify(place.subcategories);
-  console.log(subcategory);
   await db.insert(placeSchema).values({
     address: place.address,
     addressStreet_1: place.addressObj.street1,

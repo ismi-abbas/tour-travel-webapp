@@ -3,7 +3,7 @@ import { useState } from "react";
 import supabase from "../../lib/supabase";
 import toast from "react-hot-toast";
 
-export const Route = createFileRoute("/sign-in copy")({
+export const Route = createFileRoute("/(admin)/sign-in/admin")({
   component: AdminSignIn,
 });
 

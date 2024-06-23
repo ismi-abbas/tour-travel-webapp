@@ -1,8 +1,14 @@
-# React + Vite
+### Inserting into database
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+1. Create new Supabase Project
+2. Take Supabase Url and Anon Key
+3. Setup Local Seeding to Database
 
-Currently, two official plugins are available:
+### setup seeding
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Using [Drizzle ORM](https://orm.drizzle.team/) to seed database
+
+- Declare schema on schema.ts
+- Apply migration
+- run `pnpm drizzle-kit generate` to create a migration file
+- run ` pnpm drizzle-kit migrate` to migrate the database

@@ -5,9 +5,8 @@ import { DataTable } from "../../../components/data-table/data-table.jsx";
 import { columns } from "../../../components/data-table/columns.jsx";
 
 export const Route = createFileRoute("/(admin)/_admin/admin/dashboard")({
-  component: AdminDashboard
+  component: AdminDashboard,
 });
-
 
 function AdminDashboard() {
   const { data, isError, isLoading } = useQuery(catalogQueryOptions());
@@ -18,4 +17,3 @@ function AdminDashboard() {
     </div>
   );
 }
-
